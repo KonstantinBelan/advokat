@@ -6,7 +6,7 @@
 footer {
   background: transparent;
   color: $color-text;
-  padding: rem(20) 0 rem(32);
+  padding: rem(12) 0 rem(32);
 }
 
 .footer {
@@ -51,7 +51,7 @@ footer {
 
     &__title {
       font-size: rem(14.5);
-      font-weight: 700;
+      font-weight: 500;
       line-height: 1.25;
       color: $color-primary;
       text-transform: none;
@@ -159,6 +159,10 @@ footer {
       align-items: center;
       justify-content: center;
       transition: opacity $transition-fast;
+
+      @include media-up($bp-tablet) {
+        padding: rem(14) rem(16);
+      }
 
       &:hover {
         opacity: 0.92;

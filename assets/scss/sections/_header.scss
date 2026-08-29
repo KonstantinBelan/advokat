@@ -26,11 +26,11 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: rem(20);
+  box-shadow: 0 rem(4) rem(20) rgba(0, 0, 0, 0.08);
 
   @include media-down($bp-desktop) {
     padding: rem(10) rem(16);
     border-radius: rem(16);
-    box-shadow: 0 rem(4) rem(20) rgba(0, 0, 0, 0.08);
   }
 }
 
