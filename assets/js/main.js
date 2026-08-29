@@ -136,3 +136,70 @@ if (headerBurger && mobileDropdown) {
         }
     });
 }
+
+// Reviews Clamping (> 7 lines) and 'Смотреть отзыв'
+function initReviewsClamp() {
+    document.querySelectorAll('.reviews__slider-item').forEach((item) => {
+        const textEl = item.querySelector('.reviews__slider-item-header__text');
+        if (!textEl) return;
+
+        // Approximate line-height in px (14px * 1.6 ≈ 22.4px)
+        const computedStyle = window.getComputedStyle(textEl);
+        const lineHeight = parseFloat(computedStyle.lineHeight) || (parseFloat(computedStyle.fontSize) * 1.6) || 22.4;
+        const maxHeight = lineHeight * 7;
+
+        // If content height exceeds 7 lines
+        if (textEl.scrollHeight > maxHeight + 4) {
+            textEl.classList.add('is-clamped');
+
+            // Avoid duplicate button if re-run
+            let moreBtn = item.querySelector('.reviews__slider-item-more');
+            if (!moreBtn) {
+                moreBtn = document.createElement('button');
+                moreBtn.type = 'button';
+                moreBtn.className = 'reviews__slider-item-more';
+                moreBtn.textContent = 'Смотреть отзыв';
+
+                moreBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const isClamped = textEl.classList.toggle('is-clamped');
+                    moreBtn.textContent = isClamped ? 'Смотреть отзыв' : 'Свернуть';
+                    if (typeof swiperReviews !== 'undefined' && swiperReviews.update) {
+                        swiperReviews.update();
+                    }
+                });
+
+                const headerEl = item.querySelector('.reviews__slider-item-header');
+                if (headerEl) {
+                    headerEl.appendChild(moreBtn);
+                }
+            }
+        }
+    });
+}
+
+// Media Show More / Hide Toggle
+const mediaShowMoreBtn = document.querySelector('.media__show-more');
+const hiddenMediaItems = document.querySelectorAll('.media__item--hidden');
+
+if (mediaShowMoreBtn && hiddenMediaItems.length > 0) {
+    mediaShowMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isExpanded = mediaShowMoreBtn.classList.toggle('is-expanded');
+        hiddenMediaItems.forEach((item) => {
+            if (isExpanded) {
+                item.style.setProperty('display', 'grid', 'important');
+            } else {
+                item.style.removeProperty('display');
+            }
+        });
+        mediaShowMoreBtn.textContent = isExpanded ? 'Скрыть' : 'Показать еще';
+    });
+}
+
+// Run review clamp on load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReviewsClamp);
+} else {
+    initReviewsClamp();
+}

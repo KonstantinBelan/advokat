@@ -51,18 +51,26 @@
 
   &__title {
     font-family: $font-main;
-    font-size: rem(20);
+    font-size: rem(17);
     font-weight: 600;
     line-height: 1.35;
     color: $color-primary;
     max-width: rem(470);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(19);
+    }
   }
 
   &__description {
-    font-size: rem(16);
-    font-weight: 500;
-    line-height: 1.6;
+    font-size: rem(14);
+    font-weight: 400;
+    line-height: 1.55;
     color: $color-text-light;
     max-width: rem(500);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(15);
+    }
   }
 }

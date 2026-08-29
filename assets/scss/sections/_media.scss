@@ -49,6 +49,10 @@
       padding: rem(22) 0;
     }
 
+    &--hidden {
+      display: none !important;
+    }
+
     &:last-child {
       border-bottom: none;
     }

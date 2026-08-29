@@ -233,7 +233,7 @@ body {
 .section__title {
   font-family: "Anticva", serif;
   text-transform: uppercase;
-  font-size: 1.625rem;
+  font-size: 1.5rem;
   font-weight: 400;
   color: #191726;
   line-height: 1.25;
@@ -241,17 +241,17 @@ body {
 }
 @media (min-width: 480px) {
   .section__title {
-    font-size: 1.875rem;
+    font-size: 1.75rem;
   }
 }
 @media (min-width: 768px) {
   .section__title {
-    font-size: 2.125rem;
+    font-size: 2rem;
   }
 }
 @media (min-width: 1024px) {
   .section__title {
-    font-size: 2.375rem;
+    font-size: 2.25rem;
   }
 }
 .section__title--center {
@@ -1074,18 +1074,28 @@ header {
 }
 .expertise__title {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   font-weight: 600;
   line-height: 1.35;
   color: #191726;
   max-width: 29.375rem;
 }
+@media (min-width: 768px) {
+  .expertise__title {
+    font-size: 1.1875rem;
+  }
+}
 .expertise__description {
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.6;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.55;
   color: #6b7280;
   max-width: 31.25rem;
+}
+@media (min-width: 768px) {
+  .expertise__description {
+    font-size: 0.9375rem;
+  }
 }
 
 .about {
@@ -1124,7 +1134,7 @@ header {
 }
 .about__title {
   font-family: "Anticva", serif;
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 400;
   line-height: 1.2;
   color: #191726;
@@ -1133,12 +1143,12 @@ header {
 }
 @media (min-width: 768px) {
   .about__title {
-    font-size: 2.125rem;
+    font-size: 1.875rem;
   }
 }
 @media (min-width: 1024px) {
   .about__title {
-    font-size: 2.375rem;
+    font-size: 2.25rem;
   }
 }
 .about__title span {
@@ -1242,13 +1252,24 @@ header {
   align-items: stretch;
   justify-content: center;
 }
+@media (max-width: 1023px) {
+  .about__rightside {
+    order: -1;
+    width: 100%;
+  }
+}
 .about__image {
   width: 100%;
   height: 100%;
-  min-height: 20rem;
+  min-height: 16.25rem;
   border-radius: 1.25rem;
   overflow: hidden;
   background-color: #E2E4E8;
+}
+@media (min-width: 768px) {
+  .about__image {
+    min-height: 20rem;
+  }
 }
 .about__image picture,
 .about__image img {
@@ -1302,6 +1323,9 @@ header {
     gap: 1.5rem;
     padding: 1.375rem 0;
   }
+}
+.media__item--hidden {
+  display: none !important;
 }
 .media__item:last-child {
   border-bottom: none;
@@ -1619,6 +1643,29 @@ header {
   .reviews__slider-item-header__text {
     font-size: 0.90625rem;
   }
+}
+.reviews__slider-item-header__text.is-clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.reviews__slider-item-header .reviews__slider-item-more {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.84375rem;
+  font-weight: 600;
+  color: #CE494C;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.125rem;
+  transition: color 0.2s ease;
+}
+.reviews__slider-item-header .reviews__slider-item-more:hover {
+  color: #ae1917;
 }
 .reviews__slider-item-footer {
   display: flex;
@@ -1989,16 +2036,21 @@ header {
 }
 .articles-card__title {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.4;
   color: #191726;
   margin-bottom: 0.75rem;
   margin-left: 1.25rem;
   margin-right: 1.25rem;
 }
+@media (min-width: 768px) {
+  .articles-card__title {
+    font-size: 1.1875rem;
+  }
+}
 .articles-card__description {
-  font-size: 0.875rem;
+  font-size: 0.84375rem;
   line-height: 1.5;
   color: #6B7280;
   margin-bottom: 0.875rem;
