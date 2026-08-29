@@ -51,15 +51,20 @@
 
   &__title {
     font-family: $font-title;
-    font-size: rem(28);
+    font-size: rem(20);
     font-weight: 400;
-    line-height: 1.55;
+    line-height: 1.28;
     color: $color-white;
     text-transform: uppercase;
     letter-spacing: rem(0.5);
 
+    @include media-up($bp-mobile) {
+      font-size: rem(24);
+    }
+
     @include media-up($bp-tablet) {
-      font-size: rem(30);
+      font-size: rem(28);
+      line-height: 1.35;
     }
 
     @include media-up($bp-desktop) {
