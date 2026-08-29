@@ -25,10 +25,13 @@
   }
 
   &__title {
+    font-family: $font-title;
+    text-transform: uppercase;
     font-size: rem(26);
     font-weight: 400;
     color: $color-primary;
-    line-height: 1.55;
+    line-height: 1.25;
+    letter-spacing: rem(0.5);
 
     @include media-up($bp-mobile) {
       font-size: rem(30);
@@ -44,7 +47,7 @@
 
     &--center {
       text-align: center;
-      max-width: rem(720);
+      max-width: rem(820);
       margin-left: auto;
       margin-right: auto;
     }

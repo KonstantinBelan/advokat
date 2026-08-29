@@ -3,10 +3,16 @@
 // ==========================================
 @use '../abstracts' as *;
 
+// Common Slider Container
+.slider-container {
+  position: relative;
+}
+
 // Common Slider Dots / Pagination
 .cases__slider-dots,
 .reviews__slider-dots,
-.articles__wrapper-dots {
+.articles__wrapper-dots,
+.swiper-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,88 +25,106 @@
 }
 
 .cases__slider-dot,
-.articles__wrapper-dots > button,
+.reviews__slider-dot,
+.articles__wrapper-dots>button,
 .swiper-pagination-bullet {
-  width: rem(10);
-  height: rem(10);
-  border-radius: $radius-full;
-  background-color: $color-border;
+  width: rem(8) !important;
+  height: rem(8) !important;
+  border-radius: 50%;
+  background-color: #D1D5DB;
   border: none;
   padding: 0;
+  opacity: 1;
   transition: all $transition-normal;
   cursor: pointer;
 
   &--active,
   &.swiper-pagination-bullet-active {
-    width: rem(28);
-    background: $color-red;
-    border-radius: rem(5);
+    width: rem(8) !important;
+    background-color: #191726;
+    border-radius: 50%;
   }
 }
 
 // Common Slider Navigation Arrows
+.slider-nav,
 .cases__slider-nav,
+.reviews__slider-nav,
 .articles__wrapper-nav {
+  position: absolute;
+  top: calc(50% - rem(24));
+  left: rem(-62);
+  right: rem(-62);
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: rem(16);
-  margin-top: rem(20);
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+  margin: 0;
 
-  &__item {
+  @include media-down($bp-desktop) {
+    display: none;
+  }
+
+  &__item,
+  .slider-btn {
+    pointer-events: auto;
     width: rem(44);
     height: rem(44);
-    border-radius: $radius-full;
-    border: rem(1) solid $color-border;
-    background-color: $color-white;
+    border-radius: 50%;
+    border: none;
+    background-color: #232B2E;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    box-shadow: 0 rem(4) rem(12) rgba(0, 0, 0, 0.16);
     transition: all $transition-normal;
-    position: relative;
+    position: absolute;
+    top: 0;
 
     &::after {
       content: '';
-      width: rem(8);
-      height: rem(8);
-      border-top: rem(2) solid $color-primary;
-      border-right: rem(2) solid $color-primary;
+      width: rem(7);
+      height: rem(7);
+      border-top: rem(2) solid $color-white;
+      border-right: rem(2) solid $color-white;
       display: block;
-      transition: border-color $transition-fast;
+      transition: transform $transition-fast;
     }
 
-    &--prev::after {
-      transform: rotate(-135deg);
-      margin-left: rem(3);
+    &--prev {
+      left: 0;
+
+      &::after {
+        transform: rotate(-135deg);
+        margin-left: rem(2);
+      }
     }
 
-    &--next::after {
-      transform: rotate(45deg);
-      margin-right: rem(3);
+    &--next {
+      right: 0;
+
+      &::after {
+        transform: rotate(45deg);
+        margin-right: rem(2);
+      }
     }
 
     &:hover {
-      background-color: $color-primary;
-      border-color: $color-primary;
-
-      &::after {
-        border-color: $color-white;
-      }
+      background-color: #151A1C;
+      transform: scale(1.06);
     }
 
     &.swiper-button-disabled {
-      opacity: 0.4;
+      opacity: 0.3;
       cursor: not-allowed;
-
-      &:hover {
-        background-color: $color-white;
-        border-color: $color-border;
-
-        &::after {
-          border-color: $color-primary;
-        }
-      }
+      pointer-events: none;
     }
   }
+}
+
+.swiper-slide {
+  height: auto !important;
 }

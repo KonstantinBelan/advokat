@@ -33,7 +33,9 @@ $color-dark-gradient-hover: linear-gradient(273.35deg, #212627 0%, #1a1d1f 75.76
 
 // Typography
 $font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-$font-title: 'Anticva', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+$font-title: 'Anticva', serif;
+$color-card-gray: #F4F4F6;
+$color-dark-card: #212628;
 
 // Layout & Container (Scalable via rem)
 $container-max-width: 77.5rem; // 1240px / 16
