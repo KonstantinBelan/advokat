@@ -1,0 +1,111 @@
+// ==========================================
+// Section Common Components (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.section {
+  padding: rem(76) 0;
+  border-radius: rem(32) rem(32) 0 0;
+  margin-top: rem(-30);
+  background: $color-white;
+
+  @include media-up($bp-tablet) {
+    padding: rem(104) 0;
+  }
+
+  &__header {
+    margin-bottom: rem(40);
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+
+    @include media-up($bp-tablet) {
+      margin-bottom: rem(48);
+    }
+  }
+
+  &__title {
+    font-size: rem(26);
+    font-weight: 400;
+    color: $color-primary;
+    line-height: 1.55;
+
+    @include media-up($bp-mobile) {
+      font-size: rem(30);
+    }
+
+    @include media-up($bp-tablet) {
+      font-size: rem(34);
+    }
+
+    @include media-up($bp-desktop) {
+      font-size: rem(38);
+    }
+
+    &--center {
+      text-align: center;
+      max-width: rem(720);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__subtitle {
+    font-size: rem(15);
+    color: $color-text-light;
+    line-height: 1.4;
+
+    @include media-up($bp-tablet) {
+      font-size: rem(16);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    gap: rem(20);
+
+    @include media-up($bp-tablet) {
+      gap: rem(24);
+    }
+
+    &--2 {
+      grid-template-columns: 1fr;
+
+      @include media-up($bp-tablet) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    &--3 {
+      grid-template-columns: 1fr;
+
+      @include media-up($bp-mobile) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include media-up($bp-desktop) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+
+  &__card {
+    background-color: $color-white;
+    border-radius: $radius-lg;
+    padding: rem(24);
+
+    @include media-up($bp-tablet) {
+      padding: rem(30);
+    }
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    margin-top: rem(36);
+
+    @include media-up($bp-tablet) {
+      margin-top: rem(48);
+    }
+  }
+}

@@ -1,0 +1,23 @@
+// ==========================================
+// Typography (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+body {
+  font-family: $font-main;
+  font-size: rem(16);
+  color: $color-text;
+  background-color: $color-white;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-title;
+  color: $color-primary;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+p {
+  margin: 0;
+}

@@ -1,0 +1,63 @@
+// ==========================================
+// Variables (Auto Scale & Theme Tokens)
+// ==========================================
+
+// Base design reference widths (in px, without unit for math)
+$design-width-desktop: 1440;
+$design-width-mobile: 375;
+
+// Root font size reference (in px)
+$root-font-size: 16;
+
+// Colors
+$color-primary: #191726;
+$color-secondary: #2c3e50;
+$color-text: #191726;
+$color-text-light: #6b7280;
+$color-text-muted: #9ca3af;
+$color-white: #ffffff;
+$color-bg-gray: #f7f8fa;
+$color-bg-dark: #111827;
+$color-border: #CBCBCE;
+$color-border-dark: rgba(255, 255, 255, 0.1);
+
+// Accent colors & Gradients
+$color-red-hex: #CE494C;
+$color-red: linear-gradient(273.35deg, #CE494C 0%, #C1211E 75.76%);
+$color-red-hover: linear-gradient(273.35deg, #bc3e40 0%, #ae1917 75.76%);
+$color-yellow: linear-gradient(273.35deg, #CEBF77 0%, #BBAC63 75.76%);
+$color-yellow-hover: linear-gradient(273.35deg, #CEBF77 0%, #a79551 75.76%);
+$color-yellow-accent: #C1B26B;
+$color-dark-gradient: linear-gradient(273.35deg, #253235 0%, #212627 75.76%);
+$color-dark-gradient-hover: linear-gradient(273.35deg, #212627 0%, #1a1d1f 75.76%);
+
+// Typography
+$font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+$font-title: 'Anticva', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+// Layout & Container (Scalable via rem)
+$container-max-width: 77.5rem; // 1240px / 16
+$container-padding: 1.25rem; // 20px / 16
+
+// Border Radius (Scalable via rem)
+$radius-sm: 0.375rem; // 6px / 16
+$radius-md: 0.625rem; // 10px / 16
+$radius-lg: 1rem; // 16px / 16
+$radius-full: 9999px;
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+
+// Shadows
+$shadow-sm: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.04);
+$shadow-md: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 0.5rem 1.875rem rgba(0, 0, 0, 0.1);
+
+// Breakpoints
+$bp-mobile-sm: 375px;
+$bp-mobile: 480px;
+$bp-tablet: 768px;
+$bp-desktop: 1024px;
+$bp-large: 1280px;
+$bp-wide: 1440px;

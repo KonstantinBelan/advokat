@@ -1,0 +1,71 @@
+// ==========================================
+// Cases Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.cases {
+  &__wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__slider {
+    display: flex;
+
+    &-item {
+      height: auto;
+      background-color: $color-white;
+      border-radius: $radius-lg;
+      padding: rem(28) rem(24);
+      box-shadow: $shadow-sm;
+      display: flex;
+      flex-direction: column;
+      gap: rem(16);
+      border: rem(1) solid $color-border;
+      box-sizing: border-box;
+
+      &-title {
+        p {
+          font-size: rem(18);
+          font-weight: 700;
+          color: $color-primary;
+          line-height: 1.3;
+          border-bottom: rem(2) solid #b91c1c;
+          padding-bottom: rem(10);
+        }
+      }
+
+      &-task,
+      &-decision,
+      &-result {
+        display: flex;
+        flex-direction: column;
+        gap: rem(4);
+
+        span {
+          font-size: rem(12);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: rem(0.5);
+          color: $color-text-light;
+        }
+
+        p {
+          font-size: rem(14);
+          line-height: 1.5;
+          color: $color-text;
+        }
+      }
+
+      &-result {
+        span {
+          color: #b91c1c;
+        }
+
+        p {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

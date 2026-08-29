@@ -1,0 +1,25 @@
+// ==========================================
+// Form Elements (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.form-control {
+  width: 100%;
+  padding: rem(14) rem(18);
+  background-color: #f9fafb;
+  border: rem(1) solid $color-border;
+  border-radius: $radius-sm;
+  font-size: rem(15);
+  color: $color-primary;
+  transition: border-color $transition-fast, box-shadow $transition-fast, background-color $transition-fast;
+
+  &::placeholder {
+    color: $color-text-muted;
+  }
+
+  &:focus {
+    border-color: #b91c1c;
+    background-color: $color-white;
+    box-shadow: 0 0 0 rem(3) rgba(185, 28, 28, 0.1);
+  }
+}

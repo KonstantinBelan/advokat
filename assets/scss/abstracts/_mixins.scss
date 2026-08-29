@@ -1,0 +1,100 @@
+// ==========================================
+// Mixins & Auto Scale Functions
+// ==========================================
+@use 'variables' as *;
+@use 'sass:math';
+@use 'sass:meta';
+
+// Helper to strip unit cleanly
+@function strip-unit($number) {
+  @if meta.type-of($number) == 'number' and not math.is-unitless($number) {
+    @return math.div($number, ($number * 0 + 1));
+  }
+  @return $number;
+}
+
+// Convert px value to rem (auto-scales via root font-size)
+@function rem($px, $base: $root-font-size) {
+  $val: strip-unit($px);
+  @return math.div($val, $base) * 1rem;
+}
+
+// Convert px value directly to viewport width percent for Desktop
+@function vw-d($px, $base: $design-width-desktop) {
+  $val: strip-unit($px);
+  @return math.div($val, $base) * 100vw;
+}
+
+// Convert px value directly to viewport width percent for Mobile
+@function vw-m($px, $base: $design-width-mobile) {
+  $val: strip-unit($px);
+  @return math.div($val, $base) * 100vw;
+}
+
+// Fluid clamp interpolation between two breakpoints
+@function fluid($min-size, $max-size, $min-width: $design-width-mobile, $max-width: $design-width-desktop) {
+  $min-size-num: strip-unit($min-size);
+  $max-size-num: strip-unit($max-size);
+  $min-width-num: strip-unit($min-width);
+  $max-width-num: strip-unit($max-width);
+
+  $slope: math.div($max-size-num - $min-size-num, $max-width-num - $min-width-num);
+  $y-axis-intersection: -$min-width-num * $slope + $min-size-num;
+
+  @return clamp(
+    #{$min-size-num}px,
+    calc(#{$y-axis-intersection}px + #{$slope * 100}vw),
+    #{$max-size-num}px
+  );
+}
+
+// Media Queries Mixins
+@mixin media-up($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-down($breakpoint) {
+  @media (max-width: ($breakpoint - 1px)) {
+    @content;
+  }
+}
+
+@mixin media-between($min, $max) {
+  @media (min-width: $min) and (max-width: ($max - 1px)) {
+    @content;
+  }
+}
+
+// Flexbox Helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Truncate text with ellipsis
+@mixin text-truncate($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

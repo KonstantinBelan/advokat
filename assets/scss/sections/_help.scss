@@ -1,0 +1,56 @@
+// ==========================================
+// Help Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.help {
+  background: linear-gradient(180deg, #f7f8fa 0%, #edf2f7 100%);
+
+  &__content {
+    max-width: rem(780);
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(20);
+  }
+
+  &__title {
+    font-size: rem(26);
+    font-weight: 800;
+    line-height: 1.25;
+    color: $color-primary;
+
+    @include media-up($bp-tablet) {
+      font-size: rem(34);
+    }
+  }
+
+  &__subtitle {
+    font-size: rem(15);
+    line-height: 1.6;
+    color: $color-text;
+    max-width: rem(640);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(16);
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(16);
+    flex-wrap: wrap;
+    margin-top: rem(12);
+    width: 100%;
+
+    .btn {
+      @include media-down($bp-mobile) {
+        width: 100%;
+      }
+    }
+  }
+}

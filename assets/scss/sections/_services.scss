@@ -1,0 +1,114 @@
+// ==========================================
+// Services Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.services {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(24);
+
+    @include media-up($bp-desktop) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(32);
+    }
+  }
+
+  &__card {
+    background-color: $color-white;
+    border: rem(1) solid $color-border;
+    border-radius: $radius-lg;
+    padding: rem(32) rem(24);
+    box-shadow: $shadow-sm;
+    transition: transform $transition-normal, box-shadow $transition-normal;
+
+    @include media-up($bp-tablet) {
+      padding: rem(40) rem(36);
+    }
+
+    &:hover {
+      transform: translateY(rem(-2));
+      box-shadow: $shadow-md;
+    }
+
+    &-title {
+      font-size: rem(22);
+      font-weight: 700;
+      color: $color-primary;
+      margin-bottom: rem(24);
+      padding-bottom: rem(16);
+      border-bottom: rem(1) solid $color-border;
+
+      @include media-up($bp-tablet) {
+        font-size: rem(24);
+      }
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: rem(14);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        position: relative;
+        padding-left: rem(20);
+
+        &::before {
+          content: '—';
+          position: absolute;
+          left: 0;
+          color: #b91c1c;
+          font-weight: 700;
+        }
+
+        a {
+          font-size: rem(15);
+          color: $color-text;
+          text-decoration: none;
+          line-height: 1.4;
+          transition: color $transition-fast, transform $transition-fast;
+          display: inline-block;
+
+          &:hover {
+            color: #b91c1c;
+            transform: translateX(rem(3));
+          }
+        }
+      }
+    }
+
+    // Dark card variant
+    &--bg {
+      background: $color-dark-gradient;
+      border-color: transparent;
+      color: $color-white;
+
+      .services__card-title {
+        color: $color-white;
+        border-color: rgba(255, 255, 255, 0.15);
+      }
+
+      .services__card-list {
+        li {
+          &::before {
+            background: $color-yellow;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+
+          a {
+            color: #d1d5db;
+
+            &:hover {
+              color: $color-white;
+            }
+          }
+        }
+      }
+    }
+  }
+}

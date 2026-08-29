@@ -1,0 +1,214 @@
+// ==========================================
+// Footer Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+footer {
+  background: $color-dark-gradient;
+  color: $color-white;
+  padding: rem(56) 0 rem(32);
+}
+
+.footer {
+  &__container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 $container-padding rem(40);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(32);
+    border-bottom: rem(1) solid $color-border-dark;
+
+    @include media-down($bp-desktop) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: rem(12);
+
+    &__title {
+      font-size: rem(15);
+      font-weight: 700;
+      line-height: 1.2;
+      color: $color-white;
+      text-transform: uppercase;
+      letter-spacing: rem(0.5);
+    }
+
+    &__line-text {
+      display: block;
+    }
+
+    &__line {
+      background: $color-yellow;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: rem(22);
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    &__subtitle {
+      font-size: rem(12);
+      color: $color-text-muted;
+      line-height: 1.3;
+      max-width: rem(160);
+    }
+  }
+
+  &__menu {
+    &__list {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: rem(20);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      @include media-up($bp-tablet) {
+        gap: rem(24);
+      }
+    }
+
+    &__item {
+      font-size: rem(14);
+      font-weight: 500;
+      color: #d1d5db;
+      text-decoration: none;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $color-white;
+      }
+    }
+  }
+
+  &__bottom {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: rem(28) $container-padding 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(20);
+    font-size: rem(13);
+    color: $color-text-muted;
+
+    @include media-down($bp-tablet) {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: rem(16);
+    }
+
+    &-left {
+      display: flex;
+      align-items: center;
+      gap: rem(16);
+      flex-wrap: wrap;
+
+      @include media-down($bp-tablet) {
+        justify-content: center;
+      }
+    }
+
+    &-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &-messengers {
+      display: flex;
+      align-items: center;
+      gap: rem(12);
+    }
+
+    &-messenger {
+      display: inline-flex;
+      align-items: center;
+      gap: rem(8);
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: rem(6) rem(14);
+      border-radius: $radius-full;
+      text-decoration: none;
+      color: $color-white;
+      font-size: rem(13);
+      font-weight: 500;
+      transition: background-color $transition-fast;
+
+      &__icon {
+        display: flex;
+        align-items: center;
+
+        svg path {
+          fill: $color-yellow-accent;
+        }
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.16);
+      }
+    }
+
+    &-right {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__link {
+    color: $color-text-muted;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-white;
+      text-decoration: underline;
+    }
+  }
+}
+
+.footer-contacts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: rem(4);
+
+  @include media-up($bp-desktop) {
+    align-items: flex-end;
+  }
+
+  &__phone {
+    font-size: rem(16);
+    font-weight: 700;
+    color: $color-white;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      background: $color-yellow;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__callback {
+    font-size: rem(13);
+    font-weight: 500;
+    color: $color-yellow-accent;
+    text-decoration: underline;
+    text-underline-offset: rem(2);
+    transition: color $transition-fast;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}

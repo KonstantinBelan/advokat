@@ -1,0 +1,106 @@
+// ==========================================
+// Slider Controls (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+// Common Slider Dots / Pagination
+.cases__slider-dots,
+.reviews__slider-dots,
+.articles__wrapper-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(8);
+  margin-top: rem(28);
+
+  @include media-up($bp-tablet) {
+    margin-top: rem(36);
+  }
+}
+
+.cases__slider-dot,
+.articles__wrapper-dots > button,
+.swiper-pagination-bullet {
+  width: rem(10);
+  height: rem(10);
+  border-radius: $radius-full;
+  background-color: $color-border;
+  border: none;
+  padding: 0;
+  transition: all $transition-normal;
+  cursor: pointer;
+
+  &--active,
+  &.swiper-pagination-bullet-active {
+    width: rem(28);
+    background: $color-red;
+    border-radius: rem(5);
+  }
+}
+
+// Common Slider Navigation Arrows
+.cases__slider-nav,
+.articles__wrapper-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(16);
+  margin-top: rem(20);
+
+  &__item {
+    width: rem(44);
+    height: rem(44);
+    border-radius: $radius-full;
+    border: rem(1) solid $color-border;
+    background-color: $color-white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all $transition-normal;
+    position: relative;
+
+    &::after {
+      content: '';
+      width: rem(8);
+      height: rem(8);
+      border-top: rem(2) solid $color-primary;
+      border-right: rem(2) solid $color-primary;
+      display: block;
+      transition: border-color $transition-fast;
+    }
+
+    &--prev::after {
+      transform: rotate(-135deg);
+      margin-left: rem(3);
+    }
+
+    &--next::after {
+      transform: rotate(45deg);
+      margin-right: rem(3);
+    }
+
+    &:hover {
+      background-color: $color-primary;
+      border-color: $color-primary;
+
+      &::after {
+        border-color: $color-white;
+      }
+    }
+
+    &.swiper-button-disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: $color-white;
+        border-color: $color-border;
+
+        &::after {
+          border-color: $color-primary;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+// ==========================================
+// Media / Press Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.media {
+  padding: rem(60) 0;
+
+  @include media-up($bp-tablet) {
+    padding: rem(80) 0;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(20);
+
+    @include media-up($bp-tablet) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(24);
+    }
+
+    @include media-up($bp-desktop) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__item {
+    background-color: $color-white;
+    border-radius: $radius-lg;
+    padding: rem(28) rem(24);
+    display: flex;
+    flex-direction: column;
+    gap: rem(14);
+    box-shadow: $shadow-sm;
+    transition: transform $transition-normal, box-shadow $transition-normal;
+
+    &:hover {
+      transform: translateY(rem(-4));
+      box-shadow: $shadow-md;
+    }
+
+    &-title {
+      p {
+        font-size: rem(16);
+        font-weight: 700;
+        line-height: 1.35;
+        color: $color-primary;
+      }
+    }
+
+    &-description {
+      flex-grow: 1;
+
+      p {
+        font-size: rem(14);
+        line-height: 1.6;
+        color: $color-text-light;
+      }
+    }
+
+    &-link {
+      font-size: rem(14);
+      font-weight: 600;
+      color: #b91c1c;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: rem(6);
+      margin-top: rem(8);
+      transition: color $transition-fast;
+
+      &::after {
+        content: '→';
+        transition: transform $transition-fast;
+      }
+
+      &:hover {
+        color: #991b1b;
+
+        &::after {
+          transform: translateX(rem(4));
+        }
+      }
+    }
+  }
+}
