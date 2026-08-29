@@ -4,31 +4,33 @@
 @use '../abstracts' as *;
 
 .hero {
-  padding: rem(60) 0;
-  max-height: rem(780);
-  background: url('../img/hero-2x.webp') top center no-repeat;
-  background-size: cover;
+  padding: rem(105) 0 rem(44);
+  min-height: auto;
+  max-height: none;
+  background: linear-gradient(180deg, rgba(14, 18, 22, 0.85) 0%, rgba(14, 18, 22, 0.72) 35%, rgba(14, 18, 22, 0.84) 70%, rgba(14, 18, 22, 0.96) 100%), url('../img/hero-2x.webp') 82% 25% / cover no-repeat;
 
   @include media-up($bp-tablet) {
     padding: rem(160) 0 rem(120);
+    background: url('../img/hero-2x.webp') top center no-repeat;
+    background-size: cover;
+    max-height: rem(780);
   }
 
   @include media-up($bp-desktop) {
     padding: rem(190) 0 rem(150);
   }
 
-  @include media-down($bp-tablet) {
-    padding: rem(110) 0 rem(40);
-    max-height: none;
-  }
-
   &__content {
     display: flex;
     flex-direction: column;
-    gap: rem(40);
+    gap: rem(20);
     position: relative;
 
     @include media-up($bp-tablet) {
+      gap: rem(44);
+    }
+
+    @include media-up($bp-desktop) {
       gap: rem(56);
     }
   }
@@ -36,22 +38,28 @@
   &__top {
     display: flex;
     flex-direction: column;
-    gap: rem(24);
+    gap: rem(12);
     max-width: rem(860);
+
+    @include media-up($bp-tablet) {
+      gap: rem(24);
+    }
   }
 
   &__title {
-    font-size: rem(28);
+    font-size: rem(24);
     font-weight: 400;
-    line-height: 1.2;
+    line-height: 1.22;
     color: $color-white;
+    text-shadow: 0 rem(2) rem(10) rgba(0, 0, 0, 0.7);
 
     @include media-up($bp-mobile) {
-      font-size: rem(34);
+      font-size: rem(32);
     }
 
     @include media-up($bp-tablet) {
       font-size: rem(44);
+      text-shadow: none;
     }
 
     @include media-up($bp-desktop) {
@@ -64,8 +72,12 @@
       font-weight: 500;
       font-size: 0.45em;
       color: $color-white;
-      margin-top: rem(10);
+      margin-top: rem(6);
       line-height: 1.3;
+
+      @include media-up($bp-tablet) {
+        margin-top: rem(10);
+      }
     }
   }
 
@@ -73,10 +85,19 @@
     max-width: rem(620);
 
     &-text {
-      font-size: rem(16);
-      font-weight: 500;
-      line-height: 1.65;
-      color: $color-white;
+      font-size: rem(14);
+      font-weight: 400;
+      line-height: 1.55;
+      color: #F3F4F6;
+      text-shadow: 0 rem(1) rem(6) rgba(0, 0, 0, 0.7);
+
+      @include media-up($bp-tablet) {
+        font-size: rem(16);
+        font-weight: 500;
+        line-height: 1.65;
+        color: $color-white;
+        text-shadow: none;
+      }
     }
   }
 
@@ -84,15 +105,25 @@
     display: flex;
     align-items: flex-start;
     flex-direction: column;
-    gap: rem(24);
-    margin-top: rem(8);
+    gap: rem(10);
+    margin-top: rem(4);
+
+    @include media-up($bp-tablet) {
+      gap: rem(24);
+      margin-top: rem(8);
+    }
 
     &-info {
       max-width: rem(370);
-      font-size: rem(15);
+      font-size: rem(13);
       line-height: 1.4;
-      color: $color-white;
-      opacity: .6;
+      color: #D1D5DB;
+      opacity: .8;
+
+      @include media-up($bp-tablet) {
+        font-size: rem(15);
+        opacity: .6;
+      }
     }
   }
 
@@ -100,60 +131,65 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: rem(24);
+    padding: rem(16) rem(20);
     background: $color-red;
     color: $color-white;
-    font-size: rem(16);
+    font-size: rem(15);
     font-weight: 600;
     text-decoration: none;
-    border-radius: $radius-lg;
+    border-radius: rem(12);
     transition: background-color $transition-normal;
+    width: 100%;
 
-    @include media-down($bp-mobile) {
-      width: 100%;
-      padding: rem(18) rem(20);
-      font-size: rem(15);
+    &-text-desktop {
+      display: none;
+    }
+
+    &-text-mobile {
+      display: inline;
+    }
+
+    @include media-up($bp-mobile) {
+      width: auto;
+      padding: rem(24);
+      font-size: rem(16);
+      border-radius: $radius-lg;
+
+      &-text-desktop {
+        display: inline;
+      }
+
+      &-text-mobile {
+        display: none;
+      }
     }
   }
 
   &__bottom {
-    max-width: rem(360);
-    padding: rem(16) rem(24);
+    max-width: 100%;
+    padding: rem(16) rem(16);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: rem(8);
-    position: absolute;
-    right: rem(160);
-    bottom: rem(-40);
-    background: rgba(0, 0, 0, 0.6);
+    gap: rem(6);
+    position: static;
+    background: rgba(18, 24, 27, 0.78);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(rem(8));
-    border-radius: $radius-md;
+    backdrop-filter: blur(rem(10));
+    border-radius: rem(14);
+    margin-top: rem(10);
 
-    @include media-down($bp-desktop) {
-      position: static;
-      max-width: 100%;
-      margin-top: rem(16);
-    }
-
-    &::after {
-      content: '';
+    @include media-up($bp-desktop) {
       position: absolute;
-      top: rem(-25);
-      right: rem(-35);
-      width: rem(86);
-      height: rem(82);
-      background: url('../img/hero-img-2x.webp') top center no-repeat;
-      background-size: cover;
-
-      @include media-down($bp-desktop) {
-        top: rem(-20);
-        right: rem(10);
-        width: rem(60);
-        height: rem(58);
-      }
+      right: rem(160);
+      bottom: rem(-40);
+      max-width: rem(360);
+      padding: rem(16) rem(24);
+      gap: rem(8);
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: $radius-md;
+      margin-top: 0;
     }
 
     @include media-up($bp-tablet) {
@@ -161,19 +197,43 @@
       gap: rem(12);
     }
 
+    &::after {
+      content: '';
+      position: absolute;
+      top: rem(-20);
+      right: rem(10);
+      width: rem(54);
+      height: rem(52);
+      background: url('../img/hero-img-2x.webp') top center no-repeat;
+      background-size: cover;
+
+      @include media-up($bp-desktop) {
+        top: rem(-25);
+        right: rem(-35);
+        width: rem(86);
+        height: rem(82);
+      }
+    }
+
     h2 {
-      font-size: rem(17);
+      font-size: rem(15);
       font-weight: 400;
       line-height: 1.25;
       color: $color-white;
+      max-width: calc(100% - rem(56));
 
-      @include media-up($bp-tablet) {
+      @include media-up($bp-desktop) {
+        font-size: rem(17);
+        max-width: 100%;
+      }
+
+      @include media-up($bp-large) {
         font-size: rem(20);
       }
     }
 
     p {
-      font-size: rem(10);
+      font-size: rem(11);
       line-height: 1.45;
       color: $color-white;
 
