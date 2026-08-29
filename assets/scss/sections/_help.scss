@@ -82,14 +82,25 @@
       background: $color-yellow;
       color: $color-white;
       border-radius: rem(12);
-      padding: rem(20) rem(32);
+      padding: rem(14) rem(20);
       font-size: rem(14);
       font-weight: 600;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: rem(8);
       transition: opacity $transition-fast;
+      width: 100%;
+
+      @include media-up($bp-mobile) {
+        width: auto;
+        padding: rem(16) rem(28);
+      }
+
+      @include media-up($bp-tablet) {
+        padding: rem(18) rem(32);
+      }
 
       &:hover {
         opacity: 0.92;
@@ -100,16 +111,27 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
       color: $color-white;
       border-radius: rem(12);
-      padding: rem(20) rem(32);
+      padding: rem(14) rem(20);
       font-size: rem(14);
       font-weight: 500;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       transition: background-color $transition-fast;
+      width: 100%;
+
+      @include media-up($bp-mobile) {
+        width: auto;
+        padding: rem(16) rem(28);
+      }
+
+      @include media-up($bp-tablet) {
+        padding: rem(18) rem(32);
+      }
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.03);
+        background-color: rgba(255, 255, 255, 0.08);
       }
     }
   }

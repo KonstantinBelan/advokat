@@ -13,7 +13,6 @@ footer {
   &__card {
     background-color: #F4F4F6;
     border-radius: rem(16);
-    padding: rem(16) rem(20);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,13 +22,14 @@ footer {
     max-width: calc($container-max-width + $container-padding * 2);
     margin-left: auto;
     margin-right: auto;
-    padding: 0 $container-padding;
+    padding: rem(20) rem(18);
 
     @include media-down($bp-desktop) {
       flex-direction: column;
       align-items: flex-start;
-      padding: rem(20) rem(20);
+      padding: rem(22) rem(18);
       gap: rem(20);
+      width: calc(100% - rem(20));
     }
 
     @include media-up($bp-desktop) {
@@ -90,7 +90,7 @@ footer {
 
       @include media-down($bp-desktop) {
         flex-wrap: wrap;
-        gap: rem(14) rem(18);
+        gap: rem(12) rem(18);
       }
 
       @include media-up($bp-desktop) {
@@ -128,7 +128,7 @@ footer {
     flex-shrink: 0;
 
     @include media-down($bp-desktop) {
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       width: 100%;
       justify-content: space-between;
     }
@@ -178,7 +178,7 @@ footer {
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: rem(16);
+      gap: rem(14);
     }
 
     &-left {
@@ -204,6 +204,8 @@ footer {
 
       @include media-down($bp-tablet) {
         align-items: center;
+        text-align: center;
+        gap: rem(6);
       }
     }
 
@@ -211,6 +213,10 @@ footer {
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @include media-down($bp-tablet) {
+        margin: rem(4) 0;
+      }
     }
 
     &-right {
@@ -225,6 +231,10 @@ footer {
         &:hover {
           color: $color-primary;
         }
+      }
+
+      @include media-down($bp-tablet) {
+        justify-content: center;
       }
     }
   }

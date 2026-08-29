@@ -99,9 +99,14 @@
     max-width: rem(490);
 
     &-icon {
-      width: rem(82);
-      height: rem(82);
+      width: rem(56);
+      height: rem(56);
       flex-shrink: 0;
+
+      @include media-up($bp-tablet) {
+        width: rem(82);
+        height: rem(82);
+      }
 
       img {
         width: 100%;
@@ -111,12 +116,17 @@
     }
 
     &-text {
-      font-size: rem(16);
+      font-size: rem(13);
       font-weight: 600;
       color: $color-white;
-      line-height: 1.6;
+      line-height: 1.45;
       text-transform: uppercase;
       letter-spacing: rem(0.5);
+
+      @include media-up($bp-tablet) {
+        font-size: rem(16);
+        line-height: 1.6;
+      }
     }
   }
 
@@ -137,9 +147,13 @@
   &__form-card {
     background-color: $color-white;
     border-radius: rem(20);
-    padding: rem(20) rem(20);
+    padding: rem(20) rem(16);
     color: $color-primary;
     box-shadow: 0 rem(10) rem(36) rgba(0, 0, 0, 0.2);
+
+    @include media-up($bp-mobile) {
+      padding: rem(22) rem(20);
+    }
 
     @include media-up($bp-tablet) {
       padding: rem(24) rem(24);
@@ -154,7 +168,7 @@
     &-row {
       display: grid;
       grid-template-columns: 1fr;
-      gap: rem(6);
+      gap: rem(8);
 
       @include media-up($bp-mobile) {
         grid-template-columns: 1fr 1fr;
@@ -169,10 +183,15 @@
       background-color: #F4F4F6;
       border: 1px solid transparent;
       border-radius: rem(10);
-      padding: rem(16) rem(20);
-      font-size: rem(15);
+      padding: rem(14) rem(16);
+      font-size: rem(14.5);
       color: $color-primary;
       transition: border-color $transition-fast, background-color $transition-fast;
+
+      @include media-up($bp-tablet) {
+        padding: rem(16) rem(20);
+        font-size: rem(15);
+      }
 
       &::placeholder {
         color: #9CA3AF;
@@ -222,13 +241,18 @@
       &__label {
         flex: 1;
         text-align: center;
-        padding: rem(10) rem(12);
-        font-size: rem(15);
+        padding: rem(9) rem(8);
+        font-size: rem(13.5);
         font-weight: 500;
         color: #6B7280;
         border-radius: 9999px;
         cursor: pointer;
         transition: all $transition-fast;
+
+        @include media-up($bp-mobile) {
+          padding: rem(10) rem(12);
+          font-size: rem(15);
+        }
 
         input {
           display: none;
@@ -247,24 +271,10 @@
       margin-top: rem(6);
 
       button {
-        // width: 100%;
-        // background: #B93836;
-        // color: $color-white;
-        // font-size: rem(15);
-        // font-weight: 600;
-        // // border-radius: rem(12);
-        // // padding: rem(15);
-        // display: flex;
-        // align-items: center;
-        // justify-content: center;
-        // gap: rem(8);
-        // cursor: pointer;
-        // border: none;
-        // transition: opacity $transition-fast;
-
-        // &:hover {
-        //   opacity: 0.92;
-        // }
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
 

@@ -109,3 +109,30 @@ methodLabels.forEach((label) => {
         label.classList.add('cta__form-card-method__label--active');
     });
 });
+
+// Mobile Burger Menu Toggle
+const headerBurger = document.querySelector('.header-burger');
+const mobileDropdown = document.querySelector('.header-mobile-dropdown');
+
+if (headerBurger && mobileDropdown) {
+    headerBurger.addEventListener('click', () => {
+        headerBurger.classList.toggle('is-active');
+        mobileDropdown.classList.toggle('is-open');
+    });
+
+    // Close menu when clicking on any menu link
+    document.querySelectorAll('.header-mobile-dropdown__item, .header-mobile-dropdown__callback').forEach((link) => {
+        link.addEventListener('click', () => {
+            headerBurger.classList.remove('is-active');
+            mobileDropdown.classList.remove('is-open');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!headerBurger.contains(e.target) && !mobileDropdown.contains(e.target)) {
+            headerBurger.classList.remove('is-active');
+            mobileDropdown.classList.remove('is-open');
+        }
+    });
+}

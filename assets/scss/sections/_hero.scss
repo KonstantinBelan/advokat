@@ -17,6 +17,11 @@
     padding: rem(190) 0 rem(150);
   }
 
+  @include media-down($bp-tablet) {
+    padding: rem(110) 0 rem(40);
+    max-height: none;
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -103,6 +108,12 @@
     text-decoration: none;
     border-radius: $radius-lg;
     transition: background-color $transition-normal;
+
+    @include media-down($bp-mobile) {
+      width: 100%;
+      padding: rem(18) rem(20);
+      font-size: rem(15);
+    }
   }
 
   &__bottom {
@@ -121,6 +132,12 @@
     backdrop-filter: blur(rem(8));
     border-radius: $radius-md;
 
+    @include media-down($bp-desktop) {
+      position: static;
+      max-width: 100%;
+      margin-top: rem(16);
+    }
+
     &::after {
       content: '';
       position: absolute;
@@ -130,6 +147,13 @@
       height: rem(82);
       background: url('../img/hero-img-2x.webp') top center no-repeat;
       background-size: cover;
+
+      @include media-down($bp-desktop) {
+        top: rem(-20);
+        right: rem(10);
+        width: rem(60);
+        height: rem(58);
+      }
     }
 
     @include media-up($bp-tablet) {
