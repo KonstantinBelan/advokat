@@ -1,0 +1,43 @@
+// ==========================================
+// Breadcrumbs Component (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.breadcrumbs {
+  margin-bottom: rem(16);
+
+  @include media-up($bp-tablet) {
+    margin-bottom: rem(20);
+  }
+
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: rem(13);
+    font-weight: 400;
+  }
+
+  &__link {
+    color: rgba(255, 255, 255, 0.65);
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-white;
+    }
+  }
+
+  &__separator {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: rem(12);
+  }
+
+  &__current {
+    color: $color-white;
+    font-weight: 500;
+  }
+}
