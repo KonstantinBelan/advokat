@@ -3,6 +3,12 @@
 // ==========================================
 @use '../abstracts' as *;
 
+*[class*='__btn'],
+*[class*='-btn'] {
+  position: relative;
+  overflow: hidden;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
