@@ -4,10 +4,10 @@
 @use '../abstracts' as *;
 
 .breadcrumbs {
-  margin-bottom: rem(16);
+  margin-bottom: rem(12);
 
   @include media-up($bp-tablet) {
-    margin-bottom: rem(20);
+    margin-bottom: rem(16);
   }
 
   &__list {

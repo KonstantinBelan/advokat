@@ -867,7 +867,18 @@
                             <div class="cta__badge-wrapper">
                                 <div class="cta__guarantee">
                                     <div class="cta__guarantee-icon">
-                                        <img src="assets/img/hero-img.png" alt="Закон" width="40" height="40">
+                                        <picture>
+                                            <source type="image/avif"
+                                                srcset="assets/img/hero-img-sm.avif 56w, assets/img/hero-img.avif 82w, assets/img/hero-img-2x.avif 164w"
+                                                sizes="(max-width: 768px) 56px, 82px">
+                                            <source type="image/webp"
+                                                srcset="assets/img/hero-img-sm.webp 56w, assets/img/hero-img.webp 82w, assets/img/hero-img-2x.webp 164w"
+                                                sizes="(max-width: 768px) 56px, 82px">
+                                            <img src="assets/img/hero-img.png"
+                                                srcset="assets/img/hero-img-sm.png 56w, assets/img/hero-img.png 82w, assets/img/hero-img-2x.png 164w"
+                                                sizes="(max-width: 768px) 56px, 82px" width="82" height="82"
+                                                alt="Гарантия конфиденциальности" loading="lazy" decoding="async">
+                                        </picture>
                                     </div>
                                     <p class="cta__guarantee-text">Расскажу реальные шансы и&nbsp;план действий
                                         за&nbsp;15 минут.</p>

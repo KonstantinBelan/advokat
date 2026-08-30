@@ -4,6 +4,14 @@
 @use '../abstracts' as *;
 
 .cta {
+  &+.help {
+    padding-top: 0 !important;
+  }
+
+  &:has(+.help) {
+    padding-bottom: rem(50);
+  }
+
   &__wrapper {
     background: url('../img/hero-2x.webp') center / cover no-repeat, linear-gradient(135deg, #1e2528 0%, #161c1e 100%);
     border-radius: rem(24);

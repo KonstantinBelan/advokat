@@ -4,11 +4,6 @@
 @use '../abstracts' as *;
 
 .services-catalog {
-  padding: rem(50) 0;
-
-  @include media-up($bp-tablet) {
-    padding: rem(70) 0;
-  }
 
   &__header {
     margin-bottom: rem(24);
@@ -61,20 +56,21 @@
   background-color: $color-white;
   border-radius: rem(16);
   padding: rem(24) rem(20);
-  box-shadow: 0 rem(2) rem(12) rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  transition: transform $transition-fast, box-shadow $transition-fast;
 
   @include media-up($bp-tablet) {
     padding: rem(28) rem(24);
   }
 
-  &:hover {
-    transform: translateY(rem(-3));
-    box-shadow: 0 rem(8) rem(24) rgba(0, 0, 0, 0.08);
+  &--grey {
+    background-color: #F4F4F6;
+
+    .services-card__icon {
+      background-color: $color-white;
+    }
   }
 
   &__header {
