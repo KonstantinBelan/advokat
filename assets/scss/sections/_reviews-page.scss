@@ -1,0 +1,224 @@
+// ==========================================
+// Reviews Page & Leave Review Form (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.reviews-page {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(16);
+
+    @include media-up($bp-tablet) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(20);
+    }
+
+    @include media-up($bp-desktop) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(24);
+    }
+  }
+
+  &__card {
+    background-color: #F4F4F6;
+    border-radius: rem(16);
+    padding: rem(28) rem(20);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: rem(18);
+    position: relative;
+    box-sizing: border-box;
+
+    @include media-up($bp-tablet) {
+      padding: rem(32) rem(24);
+    }
+
+    &-quote-top {
+      width: rem(24);
+      height: rem(20);
+      color: rgba(25, 23, 38, 0.08);
+      flex-shrink: 0;
+    }
+
+    &-quote-bottom {
+      width: rem(24);
+      height: rem(20);
+      color: rgba(25, 23, 38, 0.08);
+      align-self: flex-end;
+      flex-shrink: 0;
+    }
+
+    &-text {
+      font-size: rem(15);
+      font-weight: 400;
+      line-height: 1.55;
+      color: $color-primary;
+      margin: 0;
+    }
+
+    &-author {
+      font-size: rem(16);
+      font-weight: 500;
+      color: $color-primary;
+      margin: 0;
+    }
+
+    &--hidden {
+      display: none;
+    }
+  }
+
+  &__more-wrapper {
+    margin-top: rem(28);
+
+    @include media-up($bp-tablet) {
+      margin-top: rem(36);
+    }
+  }
+}
+
+// ==========================================
+// Leave Review Section
+// ==========================================
+.leave-review {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+
+  &__card {
+    background-color: #F4F4F6;
+    border-radius: rem(20);
+    padding: rem(28) rem(20);
+
+    @include media-up($bp-tablet) {
+      padding: rem(36) rem(32);
+    }
+
+    @include media-up($bp-desktop) {
+      padding: rem(44) rem(48);
+    }
+  }
+
+  &__title {
+    font-family: $font-title;
+    font-size: rem(24);
+    font-weight: 400;
+    line-height: 1.25;
+    color: $color-primary;
+    text-transform: uppercase;
+    margin-bottom: rem(24);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(28);
+      margin-bottom: rem(28);
+    }
+
+    @include media-up($bp-desktop) {
+      font-size: rem(30);
+      margin-bottom: rem(32);
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
+  }
+
+  &__fields {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(12);
+
+    @include media-up($bp-tablet) {
+      grid-template-columns: 1fr 1.3fr;
+      gap: rem(16);
+    }
+  }
+
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: rem(12);
+
+    input {
+      width: 100%;
+      background-color: $color-white;
+      border: 1px solid transparent;
+      border-radius: rem(12);
+      padding: rem(16) rem(20);
+      font-size: rem(15);
+      font-family: $font-main;
+      font-weight: 500;
+      color: $color-primary;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color $transition-fast;
+
+      &::placeholder {
+        color: #8C8B94;
+      }
+
+      &:focus {
+        border-color: #CEBF77;
+      }
+    }
+  }
+
+  &__textarea {
+    textarea {
+      width: 100%;
+      height: 100%;
+      min-height: rem(110);
+      background-color: $color-white;
+      border: 1px solid transparent;
+      border-radius: rem(12);
+      padding: rem(16) rem(20);
+      font-size: rem(15);
+      font-family: $font-main;
+      font-weight: 500;
+      color: $color-primary;
+      box-sizing: border-box;
+      outline: none;
+      resize: none;
+      transition: border-color $transition-fast;
+
+      &::placeholder {
+        color: #8C8B94;
+      }
+
+      &:focus {
+        border-color: #CEBF77;
+      }
+    }
+  }
+
+  &__submit {
+    button {
+      width: 100%;
+    }
+  }
+
+  &__consent {
+    font-size: rem(13);
+    line-height: 1.5;
+    color: #8C8B94;
+    font-weight: 500;
+    margin: rem(4) 0 0;
+
+    @include media-up($bp-tablet) {
+      font-size: rem(14);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+}

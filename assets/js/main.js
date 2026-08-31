@@ -197,6 +197,25 @@ if (mediaShowMoreBtn && hiddenMediaItems.length > 0) {
     });
 }
 
+// Reviews Page Show More Toggle
+const reviewsPageMoreBtn = document.querySelector('.reviews-page__more');
+const hiddenReviewCards = document.querySelectorAll('.reviews-page__card--hidden');
+
+if (reviewsPageMoreBtn && hiddenReviewCards.length > 0) {
+    reviewsPageMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isExpanded = reviewsPageMoreBtn.classList.toggle('is-expanded');
+        hiddenReviewCards.forEach((item) => {
+            if (isExpanded) {
+                item.style.setProperty('display', 'flex', 'important');
+            } else {
+                item.style.removeProperty('display');
+            }
+        });
+        reviewsPageMoreBtn.textContent = isExpanded ? 'Скрыть' : 'Показать еще';
+    });
+}
+
 // Run review clamp on load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initReviewsClamp);
