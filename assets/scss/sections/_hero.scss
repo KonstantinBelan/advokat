@@ -34,7 +34,8 @@
   }
 
   &--reviews,
-  &--cases {
+  &--cases,
+  &--contacts {
     background: url('../img/reviews-hero.webp') center / cover no-repeat;
     padding: rem(130) 0 rem(40);
     position: relative;
@@ -46,6 +47,16 @@
 
     @include media-up($bp-desktop) {
       padding: rem(150) 0 rem(50);
+    }
+  }
+
+  &--contacts {
+    .hero__reviews-phone {
+      bottom: rem(-90);
+
+      @include media-up($bp-desktop) {
+        bottom: rem(-90);
+      }
     }
   }
 
