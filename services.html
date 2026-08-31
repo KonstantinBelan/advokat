@@ -27,18 +27,80 @@
             </a>
             <nav class="header-menu">
                 <ul class="header-menu__list">
-                    <li><a class="header-menu__item" href="services.html">Услуги</a></li>
+                    <li class="header-menu__item-has-dropdown">
+                        <a class="header-menu__item" href="services.html">
+                            Услуги
+                            <svg class="header-menu__arrow" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <div class="header-dropdown header-dropdown--services">
+                            <ul class="header-dropdown__list">
+                                <li class="header-dropdown__item-has-submenu">
+                                    <a href="service-citizens.html" class="header-dropdown__link">
+                                        <span>Услуги для физических лиц</span>
+                                        <svg class="header-dropdown__chevron" width="6" height="10" viewBox="0 0 6 10" fill="none">
+                                            <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </a>
+                                    <div class="header-submenu">
+                                        <ul class="header-submenu__list">
+                                            <li><a href="service-item.html" class="header-submenu__link">Споры с недвижимостью и жилищные споры</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Семейные споры, раздел имущества</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Наследственные споры</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Трудовые споры</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Сопровождение сделок с недвижимостью</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Административные дела</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Уголовные дела</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Защита прав потребителей</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Банкротство физических лиц</a></li>
+                                            <li><a href="service-citizens.html" class="header-submenu__link">Исполнительное производство</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="header-dropdown__item-has-submenu">
+                                    <a href="service-legal.html" class="header-dropdown__link">
+                                        <span>Услуги для юридических лиц</span>
+                                        <svg class="header-dropdown__chevron" width="6" height="10" viewBox="0 0 6 10" fill="none">
+                                            <path d="M1 9L5 5L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </a>
+                                    <div class="header-submenu">
+                                        <ul class="header-submenu__list">
+                                            <li><a href="service-legal.html" class="header-submenu__link">Взыскание долгов</a></li>
+                                            <li><a href="service-legal.html" class="header-submenu__link">Банкротство предприятий</a></li>
+                                            <li><a href="service-legal.html" class="header-submenu__link">Корпоративные споры</a></li>
+                                            <li><a href="service-legal.html" class="header-submenu__link">Юридическое обслуживание</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <li><a class="header-menu__item" href="index.html#about">Об адвокате</a></li>
                     <li><a class="header-menu__item" href="index.html#faq">Вопросы</a></li>
-                    <li><a class="header-menu__item" href="index.html#cases">Кейсы</a></li>
-                    <li><a class="header-menu__item" href="index.html#articles">Статьи</a></li>
-                    <li><a class="header-menu__item" href="index.html#reviews">Отзывы</a></li>
-                    <li><a class="header-menu__item" href="#contacts">Контакты</a></li>
+                    <li><a class="header-menu__item" href="cases.html">Кейсы</a></li>
+                    <li class="header-menu__item-has-dropdown">
+                        <a class="header-menu__item" href="articles.html">
+                            Статьи
+                            <svg class="header-menu__arrow" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <div class="header-dropdown header-dropdown--simple">
+                            <ul class="header-dropdown__list">
+                                <li><a href="articles.html" class="header-dropdown__link"><span>Юридические статьи</span></a></li>
+                                <li><a href="news.html" class="header-dropdown__link"><span>Новости</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a class="header-menu__item" href="reviews.html">Отзывы</a></li>
+                    <li><a class="header-menu__item" href="contacts.html">Контакты</a></li>
                 </ul>
             </nav>
             <div class="header-contacts">
                 <a class="header-contacts__phone" href="tel:+79939099050">8 (993) 909-90-50</a>
-                <a class="btn btn--small btn--yellow header-contacts__callback" href="#cta">Задать вопрос онлайн</a>
+                <a class="btn btn--small btn--yellow header-contacts__callback" href="#consultation-form">Задать вопрос онлайн</a>
             </div>
             <div class="header-mobile-actions">
                 <a class="header-mobile-phone" href="tel:+79939099050" aria-label="Позвонить">
@@ -57,17 +119,67 @@
         </div>
         <div class="header-mobile-dropdown">
             <ul class="header-mobile-dropdown__list">
-                <li><a class="header-mobile-dropdown__item" href="services.html">Услуги</a></li>
+                <li class="header-mobile-dropdown__group">
+                    <div class="header-mobile-dropdown__toggle">
+                        <a class="header-mobile-dropdown__item" href="services.html">Услуги</a>
+                        <button type="button" class="header-mobile-dropdown__arrow-btn" aria-label="Развернуть услуги">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="header-mobile-dropdown__submenu">
+                        <div class="header-mobile-dropdown__category">
+                            <a href="service-citizens.html" class="header-mobile-dropdown__category-title">Услуги для физических лиц:</a>
+                            <ul class="header-mobile-dropdown__sublist">
+                                <li><a href="service-item.html" class="header-mobile-dropdown__subitem">Споры с недвижимостью и жилищные споры</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Семейные споры, раздел имущества</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Наследственные споры</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Трудовые споры</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Сопровождение сделок с недвижимостью</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Административные дела</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Уголовные дела</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Защита прав потребителей</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Банкротство физических лиц</a></li>
+                                <li><a href="service-citizens.html" class="header-mobile-dropdown__subitem">Исполнительное производство</a></li>
+                            </ul>
+                        </div>
+                        <div class="header-mobile-dropdown__category">
+                            <a href="service-legal.html" class="header-mobile-dropdown__category-title">Услуги для юридических лиц:</a>
+                            <ul class="header-mobile-dropdown__sublist">
+                                <li><a href="service-legal.html" class="header-mobile-dropdown__subitem">Взыскание долгов</a></li>
+                                <li><a href="service-legal.html" class="header-mobile-dropdown__subitem">Банкротство предприятий</a></li>
+                                <li><a href="service-legal.html" class="header-mobile-dropdown__subitem">Корпоративные споры</a></li>
+                                <li><a href="service-legal.html" class="header-mobile-dropdown__subitem">Юридическое обслуживание</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 <li><a class="header-mobile-dropdown__item" href="index.html#about">Об адвокате</a></li>
                 <li><a class="header-mobile-dropdown__item" href="index.html#faq">Вопросы</a></li>
-                <li><a class="header-mobile-dropdown__item" href="index.html#cases">Кейсы</a></li>
-                <li><a class="header-mobile-dropdown__item" href="index.html#articles">Статьи</a></li>
-                <li><a class="header-mobile-dropdown__item" href="index.html#reviews">Отзывы</a></li>
-                <li><a class="header-mobile-dropdown__item" href="#contacts">Контакты</a></li>
+                <li><a class="header-mobile-dropdown__item" href="cases.html">Кейсы</a></li>
+                <li class="header-mobile-dropdown__group">
+                    <div class="header-mobile-dropdown__toggle">
+                        <a class="header-mobile-dropdown__item" href="articles.html">Статьи</a>
+                        <button type="button" class="header-mobile-dropdown__arrow-btn" aria-label="Развернуть статьи">
+                            <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
+                                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="header-mobile-dropdown__submenu">
+                        <ul class="header-mobile-dropdown__sublist">
+                            <li><a href="articles.html" class="header-mobile-dropdown__subitem">Юридические статьи</a></li>
+                            <li><a href="news.html" class="header-mobile-dropdown__subitem">Новости</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a class="header-mobile-dropdown__item" href="reviews.html">Отзывы</a></li>
+                <li><a class="header-mobile-dropdown__item" href="contacts.html">Контакты</a></li>
             </ul>
             <div class="header-mobile-dropdown__contacts">
                 <a class="header-mobile-dropdown__phone" href="tel:+79939099050">8 (993) 909-90-50</a>
-                <a class="btn btn--small btn--yellow header-mobile-dropdown__callback" href="#cta">Задать вопрос
+                <a class="btn btn--small btn--yellow header-mobile-dropdown__callback" href="#consultation-form">Задать вопрос
                     онлайн</a>
             </div>
         </div>

@@ -277,6 +277,22 @@ if (newsPageMoreBtn && hiddenNewsCards.length > 0) {
     });
 }
 
+// Mobile Menu Submenu Accordions
+const mobileArrowBtns = document.querySelectorAll('.header-mobile-dropdown__arrow-btn');
+mobileArrowBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const group = btn.closest('.header-mobile-dropdown__group');
+        if (group) {
+            const submenu = group.querySelector('.header-mobile-dropdown__submenu');
+            if (submenu) {
+                const isOpen = submenu.classList.toggle('is-open');
+                btn.classList.toggle('is-open', isOpen);
+            }
+        }
+    });
+});
+
 // Run review clamp on load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initReviewsClamp);
