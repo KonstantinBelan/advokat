@@ -216,6 +216,25 @@ if (reviewsPageMoreBtn && hiddenReviewCards.length > 0) {
     });
 }
 
+// Cases Page Show More Toggle
+const casesPageMoreBtn = document.querySelector('.cases-page__more');
+const hiddenCaseCards = document.querySelectorAll('.cases-page__card--hidden');
+
+if (casesPageMoreBtn && hiddenCaseCards.length > 0) {
+    casesPageMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isExpanded = casesPageMoreBtn.classList.toggle('is-expanded');
+        hiddenCaseCards.forEach((item) => {
+            if (isExpanded) {
+                item.style.setProperty('display', 'flex', 'important');
+            } else {
+                item.style.removeProperty('display');
+            }
+        });
+        casesPageMoreBtn.textContent = isExpanded ? 'Скрыть' : 'Показать еще';
+    });
+}
+
 // Run review clamp on load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initReviewsClamp);
