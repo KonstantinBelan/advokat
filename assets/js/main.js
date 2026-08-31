@@ -235,6 +235,48 @@ if (casesPageMoreBtn && hiddenCaseCards.length > 0) {
     });
 }
 
+// Blog Page Show More Toggle
+const blogPageMoreBtn = document.querySelector('.blog-page__more');
+const hiddenBlogCards = document.querySelectorAll('.blog-page__card--hidden');
+
+if (blogPageMoreBtn && hiddenBlogCards.length > 0) {
+    blogPageMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isExpanded = blogPageMoreBtn.classList.toggle('is-expanded');
+        hiddenBlogCards.forEach((item) => {
+            if (isExpanded) {
+                item.style.setProperty('display', 'flex', 'important');
+            } else {
+                item.style.removeProperty('display');
+            }
+        });
+        blogPageMoreBtn.innerHTML = isExpanded
+            ? 'Скрыть <span class="btn--outline-more__arrow">▲</span>'
+            : 'Показать еще <span class="btn--outline-more__arrow">▼</span>';
+    });
+}
+
+// News Page Show More Toggle
+const newsPageMoreBtn = document.querySelector('.news-page__more');
+const hiddenNewsCards = document.querySelectorAll('.news-page__card--hidden');
+
+if (newsPageMoreBtn && hiddenNewsCards.length > 0) {
+    newsPageMoreBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isExpanded = newsPageMoreBtn.classList.toggle('is-expanded');
+        hiddenNewsCards.forEach((item) => {
+            if (isExpanded) {
+                item.style.setProperty('display', 'flex', 'important');
+            } else {
+                item.style.removeProperty('display');
+            }
+        });
+        newsPageMoreBtn.innerHTML = isExpanded
+            ? 'Скрыть <span class="btn--outline-more__arrow">▲</span>'
+            : 'Показать еще <span class="btn--outline-more__arrow">▼</span>';
+    });
+}
+
 // Run review clamp on load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initReviewsClamp);
