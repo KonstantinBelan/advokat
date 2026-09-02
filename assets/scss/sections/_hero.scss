@@ -38,6 +38,8 @@
   &--contacts,
   &--blog,
   &--articles,
+  &--article,
+  &--article-detail,
   &--news {
     background: url('../img/reviews-hero.webp') center / cover no-repeat;
     padding: rem(130) 0 rem(40);
@@ -59,6 +61,64 @@
 
       @include media-up($bp-desktop) {
         bottom: rem(-90);
+      }
+    }
+  }
+
+  &--article,
+  &--article-detail {
+    background: url('../img/reviews-hero.webp') center / cover no-repeat;
+    padding: rem(130) 0 rem(16);
+    position: relative;
+    overflow: hidden;
+
+    @include media-up($bp-tablet) {
+      padding: rem(150) 0 rem(24);
+    }
+
+    @include media-up($bp-desktop) {
+      padding: rem(160) 0 rem(42);
+    }
+
+    .hero__content {
+      gap: 0;
+    }
+
+    .hero__reviews-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .hero__top {
+      max-width: 100%;
+      gap: 0;
+    }
+
+    .hero__seal {
+      display: none;
+      width: rem(120);
+      height: auto;
+      flex-shrink: 0;
+      mix-blend-mode: luminosity;
+      opacity: 0.85;
+
+      @include media-up($bp-tablet) {
+        display: block;
+        width: rem(150);
+      }
+
+      @include media-up($bp-desktop) {
+        width: rem(175);
+      }
+
+      picture,
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
       }
     }
   }

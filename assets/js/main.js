@@ -1,92 +1,121 @@
 // Cases Swiper
-const swiperCases = new Swiper('.cases__wrapper', {
-    direction: 'horizontal',
-    loop: true,
-    spaceBetween: 20,
-    slidesPerView: 1,
-    pagination: {
-        el: '.cases__slider-dots',
-        clickable: true,
-    },
-    navigation: {
-        nextEl: '.cases__slider-nav__item--next',
-        prevEl: '.cases__slider-nav__item--prev',
-    },
-    breakpoints: {
-        480: {
-            slidesPerView: 1.1,
-            spaceBetween: 16,
+if (document.querySelector('.cases__wrapper')) {
+    new Swiper('.cases__wrapper', {
+        direction: 'horizontal',
+        loop: true,
+        spaceBetween: 20,
+        slidesPerView: 1,
+        pagination: {
+            el: '.cases__slider-dots',
+            clickable: true,
         },
-        768: {
-            slidesPerView: 2,
-            spaceBetween: 20,
+        navigation: {
+            nextEl: '.cases__slider-nav__item--next',
+            prevEl: '.cases__slider-nav__item--prev',
         },
-        1024: {
-            slidesPerView: 3,
-            spaceBetween: 24,
+        breakpoints: {
+            480: {
+                slidesPerView: 1.1,
+                spaceBetween: 16,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+            },
         },
-    },
-});
+    });
+}
 
 // Articles Swiper
-const swiperArticles = new Swiper('.articles__wrapper', {
-    direction: 'horizontal',
-    loop: true,
-    spaceBetween: 20,
-    slidesPerView: 1,
-    pagination: {
-        el: '.articles__wrapper-dots',
-        clickable: true,
-    },
-    navigation: {
-        nextEl: '.articles__wrapper-nav__item--next',
-        prevEl: '.articles__wrapper-nav__item--prev',
-    },
-    breakpoints: {
-        480: {
-            slidesPerView: 1.1,
-            spaceBetween: 16,
+if (document.querySelector('.articles__wrapper')) {
+    new Swiper('.articles__wrapper', {
+        direction: 'horizontal',
+        loop: true,
+        spaceBetween: 20,
+        slidesPerView: 1,
+        pagination: {
+            el: '.articles__wrapper-dots',
+            clickable: true,
         },
-        768: {
-            slidesPerView: 2,
-            spaceBetween: 20,
+        navigation: {
+            nextEl: '.articles__wrapper-nav__item--next',
+            prevEl: '.articles__wrapper-nav__item--prev',
         },
-        1024: {
-            slidesPerView: 3,
-            spaceBetween: 24,
+        breakpoints: {
+            480: {
+                slidesPerView: 1.1,
+                spaceBetween: 16,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+            },
         },
-    },
-});
+    });
+}
+
+// Inline Article Detail Swiper
+if (document.querySelector('.article-detail__slider')) {
+    new Swiper('.article-detail__slider', {
+        direction: 'horizontal',
+        loop: true,
+        spaceBetween: 10,
+        slidesPerView: 1,
+        observer: true,
+        observeParents: true,
+        observeSlideChildren: true,
+        watchOverflow: true,
+        pagination: {
+            el: '.article-slider-dots',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.article-slider-btn--next',
+            prevEl: '.article-slider-btn--prev',
+        },
+    });
+}
 
 // Reviews Swiper
-const swiperReviews = new Swiper('.reviews__wrapper', {
-    direction: 'horizontal',
-    loop: true,
-    spaceBetween: 20,
-    slidesPerView: 1,
-    pagination: {
-        el: '.reviews__slider-dots',
-        clickable: true,
-    },
-    navigation: {
-        nextEl: '.reviews__slider-nav__item--next',
-        prevEl: '.reviews__slider-nav__item--prev',
-    },
-    breakpoints: {
-        480: {
-            slidesPerView: 1.1,
-            spaceBetween: 16,
+let swiperReviews;
+if (document.querySelector('.reviews__wrapper')) {
+    swiperReviews = new Swiper('.reviews__wrapper', {
+        direction: 'horizontal',
+        loop: true,
+        spaceBetween: 20,
+        slidesPerView: 1,
+        pagination: {
+            el: '.reviews__slider-dots',
+            clickable: true,
         },
-        768: {
-            slidesPerView: 2,
-            spaceBetween: 20,
+        navigation: {
+            nextEl: '.reviews__slider-nav__item--next',
+            prevEl: '.reviews__slider-nav__item--prev',
         },
-        1024: {
-            slidesPerView: 3,
-            spaceBetween: 24,
+        breakpoints: {
+            480: {
+                slidesPerView: 1.1,
+                spaceBetween: 16,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 24,
+            },
         },
-    },
-});
+    });
+}
 
 // FAQ Accordion - Close other items on open
 document.querySelectorAll('.faq__item').forEach((item) => {
