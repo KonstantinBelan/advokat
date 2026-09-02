@@ -329,10 +329,6 @@
       font-size: rem(24);
     }
 
-    @include media-up($bp-tablet) {
-      max-width: rem(620);
-    }
-
     @include media-up($bp-mobile) {
       font-size: rem(32);
 
@@ -344,6 +340,7 @@
     @include media-up($bp-tablet) {
       font-size: rem(44);
       text-shadow: none;
+      max-width: rem(620);
 
       &--page {
         font-size: rem(42);
@@ -352,6 +349,7 @@
 
     @include media-up($bp-desktop) {
       font-size: rem(54);
+      max-width: 100%;
 
       &--page {
         font-size: rem(46);
