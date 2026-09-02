@@ -1,0 +1,47 @@
+// ==========================================
+// Fonts & @font-face Declarations
+// ==========================================
+
+@font-face {
+  font-family: 'Anticva';
+  src: url('../fonts/Anticva-Regular.woff2') format('woff2'),
+       url('../fonts/Anticva-Regular.woff') format('woff'),
+       url('../fonts/Anticva-Regular.ttf') format('truetype'),
+       url('../fonts/Anticva-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anticva';
+  src: url('../fonts/Anticva-Regular.woff2') format('woff2'),
+       url('../fonts/Anticva-Regular.woff') format('woff'),
+       url('../fonts/Anticva-Regular.ttf') format('truetype'),
+       url('../fonts/Anticva-Regular.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anticva';
+  src: url('../fonts/Anticva-Regular.woff2') format('woff2'),
+       url('../fonts/Anticva-Regular.woff') format('woff'),
+       url('../fonts/Anticva-Regular.ttf') format('truetype'),
+       url('../fonts/Anticva-Regular.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Anticva';
+  src: url('../fonts/Anticva-Regular.woff2') format('woff2'),
+       url('../fonts/Anticva-Regular.woff') format('woff'),
+       url('../fonts/Anticva-Regular.ttf') format('truetype'),
+       url('../fonts/Anticva-Regular.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
