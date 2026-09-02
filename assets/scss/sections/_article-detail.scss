@@ -4,12 +4,16 @@
 @use '../abstracts' as *;
 
 .article-detail {
-  margin: rem(46) 0;
+  // margin: rem(46) 0;
+  margin-bottom: rem(46);
   padding: 0;
+  padding-top: rem(46);
 
   @include media-up($bp-tablet) {
-    margin: rem(60) 0 rem(120);
+    // margin: rem(60) 0 rem(120);
+    margin-bottom: rem(120);
     padding: 0;
+    padding-top: rem(60);
   }
 
   &__layout {
@@ -389,7 +393,7 @@
     }
 
     strong {
-      color: $color-red;
+      color: $color-red-hex;
       font-weight: 700;
     }
   }
@@ -577,14 +581,14 @@
         background-position: center;
         flex-shrink: 0;
         margin-top: rem(3);
-        color: $color-red;
+        color: $color-red-hex;
         width: rem(16);
         height: rem(20);
         transition: transform $transition-fast;
       }
 
       &:hover {
-        color: $color-red;
+        color: $color-red-hex;
 
         &::before {
           transform: scale(1.1);

@@ -81,6 +81,10 @@
     border-top: 1px dashed #E5E7EB;
     margin: rem(16) 0;
     width: 100%;
+
+    @include media-down($bp-tablet) {
+      display: none;
+    }
   }
 
   &__content {

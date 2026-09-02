@@ -12,9 +12,14 @@
   position: relative;
   z-index: 1;
 
-  +section {
+  +section,
+  +article {
     position: relative;
     z-index: 2;
+
+    @include media-down($bp-mobile) {
+      margin-top: rem(-32);
+    }
   }
 
   @include media-up($bp-tablet) {
@@ -49,7 +54,7 @@
   &--article-detail,
   &--news {
     background: url('../img/reviews-hero.webp') center / cover no-repeat;
-    padding: rem(130) 0 rem(40);
+    padding: rem(130) 0 rem(60);
     position: relative;
     overflow: hidden;
 
@@ -73,12 +78,13 @@
   }
 
   &--consultation {
-    background: #15131f url('../img/consultation-hero.webp') right center / cover no-repeat;
+    background: linear-gradient(180deg, rgba(14, 18, 22, 0.4) 0%, rgba(14, 18, 22, 0.75) 5%, rgba(14, 18, 22, 0.8) 90%, rgba(14, 18, 22, 0.96) 100%), url('../img/consultation-hero-2x.webp') 82% 25% / cover no-repeat;
     padding: rem(125) 0 rem(60);
     position: relative;
     overflow: hidden;
 
     @include media-up($bp-tablet) {
+      background: #15131f url('../img/consultation-hero-2x.webp') right center / cover no-repeat;
       padding: rem(140) 0 rem(75);
     }
 
@@ -125,6 +131,14 @@
 
     .hero__actions {
       margin-top: rem(6);
+    }
+  }
+
+  &--articles {
+    .hero__title--page {
+      @include media-down($bp-mobile) {
+        max-width: rem(220);
+      }
     }
   }
 
@@ -315,6 +329,10 @@
       font-size: rem(24);
     }
 
+    @include media-up($bp-tablet) {
+      max-width: rem(620);
+    }
+
     @include media-up($bp-mobile) {
       font-size: rem(32);
 
@@ -367,6 +385,11 @@
     @include media-up($bp-tablet) {
       font-size: rem(22);
       margin-top: rem(8);
+    }
+
+    @include media-down($bp-mobile) {
+      margin-top: rem(-12);
+      font-size: rem(14);
     }
   }
 
@@ -459,13 +482,13 @@
   }
 
   &__bottom {
-    max-width: 100%;
     padding: rem(16) rem(16);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     gap: rem(6);
+    max-width: rem(360);
     position: static;
     background: rgba(18, 24, 27, 0.78);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -473,21 +496,26 @@
     border-radius: rem(14);
     margin-top: rem(10);
 
+    @include media-up($bp-tablet) {
+      padding: rem(28) rem(36);
+      gap: rem(12);
+      max-width: rem(620);
+    }
+
     @include media-up($bp-desktop) {
       position: absolute;
       right: rem(160);
       bottom: rem(-40);
-      max-width: rem(360);
       padding: rem(16) rem(24);
       gap: rem(8);
       background: rgba(0, 0, 0, 0.6);
       border-radius: $radius-md;
       margin-top: 0;
+      max-width: rem(360);
     }
 
-    @include media-up($bp-tablet) {
-      padding: rem(28) rem(36);
-      gap: rem(12);
+    @include media-down($bp-mobile) {
+      max-width: 100%;
     }
 
     &::after {

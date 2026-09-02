@@ -32,7 +32,7 @@
 
   &__title {
     font-family: $font-main;
-    font-size: rem(20);
+    font-size: rem(16);
     font-weight: 600;
     color: $color-primary;
     margin-bottom: rem(26);
@@ -63,7 +63,7 @@
 
   &__pill {
     background-color: $color-white;
-    border-radius: 9999px;
+    border-radius: rem(12);
     padding: rem(10) rem(18);
     font-size: rem(13.5);
     font-weight: 500;
@@ -73,6 +73,10 @@
     gap: rem(8);
     text-decoration: none;
     transition: transform $transition-fast;
+
+    @include media-up($bp-tablet) {
+      border-radius: 9999px;
+    }
 
     &:hover {
       transform: translateY(rem(-2));

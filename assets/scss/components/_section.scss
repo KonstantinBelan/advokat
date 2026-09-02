@@ -4,13 +4,18 @@
 @use '../abstracts' as *;
 
 .section {
-  padding: rem(46) 0;
-  border-radius: rem(32) rem(32) 0 0;
-  margin-top: rem(-30);
+  padding: rem(64) 0;
+
+  &:not(.hero) {
+    border-radius: rem(32) rem(32) 0 0;
+  }
+
+  margin-top: rem(-12);
   background: $color-white;
 
   @include media-up($bp-tablet) {
     padding: rem(104) 0;
+    margin-top: rem(-30);
   }
 
   &__header {
@@ -27,14 +32,14 @@
   &__title {
     font-family: $font-title;
     text-transform: uppercase;
-    font-size: rem(24);
+    font-size: rem(22);
     font-weight: 400;
     color: $color-primary;
     line-height: 1.25;
     letter-spacing: rem(0.5);
 
     @include media-up($bp-mobile) {
-      font-size: rem(28);
+      font-size: rem(24);
     }
 
     @include media-up($bp-tablet) {

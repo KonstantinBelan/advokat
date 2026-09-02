@@ -3,6 +3,14 @@
 // ==========================================
 @use '../abstracts' as *;
 
+.hero--article .breadcrumbs {
+  margin-bottom: rem(42);
+
+  @include media-up($bp-tablet) {
+    margin-bottom: rem(32);
+  }
+}
+
 .breadcrumbs {
   // margin-bottom: rem(12);
 

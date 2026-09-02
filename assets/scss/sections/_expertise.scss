@@ -16,13 +16,15 @@
 
   &__image {
     width: 100%;
-    height: rem(200);
+    height: auto;
+    max-height: rem(200);
     overflow: hidden;
     background-color: #e5e7eb;
     border-radius: $radius-md;
 
     @include media-up($bp-mobile) {
       height: rem(240);
+      max-height: rem(240);
     }
 
     img {
@@ -55,7 +57,7 @@
 
   &__title {
     font-family: $font-main;
-    font-size: rem(17);
+    font-size: rem(16);
     font-weight: 600;
     line-height: 1.35;
     color: $color-primary;

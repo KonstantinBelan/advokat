@@ -162,7 +162,7 @@
       transition: color $transition-fast;
 
       &:hover {
-        color: $color-red;
+        color: $color-red-hex;
       }
     }
   }
@@ -178,7 +178,7 @@
   &__read-more {
     font-size: rem(13.5);
     font-weight: 500;
-    color: $color-red;
+    color: $color-red-hex;
     text-decoration: underline;
     margin-top: auto;
     margin-left: rem(16);

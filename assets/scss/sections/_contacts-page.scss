@@ -40,6 +40,10 @@
       padding: rem(40) rem(32);
       gap: rem(24);
     }
+
+    @include media-down($bp-mobile) {
+      gap: rem(12);
+    }
   }
 
   &__item {
@@ -63,7 +67,7 @@
     transition: color $transition-fast;
 
     &:hover {
-      color: $color-red;
+      color: $color-red-hex;
     }
 
     &--lg {
@@ -71,6 +75,10 @@
 
       @include media-up($bp-tablet) {
         font-size: rem(24);
+      }
+
+      @include media-down($bp-mobile) {
+        font-size: rem(16);
       }
     }
   }
@@ -84,6 +92,10 @@
 
     @include media-up($bp-tablet) {
       font-size: rem(18);
+    }
+
+    @include media-down($bp-mobile) {
+      font-size: rem(16);
     }
   }
 
