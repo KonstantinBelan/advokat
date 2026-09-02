@@ -57,6 +57,9 @@
     box-sizing: border-box;
 
     &__image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 100%;
       height: rem(180);
       border-radius: rem(12);
@@ -95,6 +98,15 @@
         background-color: #E5E7EB;
         color: $color-primary;
       }
+    }
+
+    &__meta {
+      margin: rem(16) rem(20);
+      padding-bottom: rem(6);
+      border-bottom: rem(1) solid #DADADA;
+      font-size: rem(14);
+      font-weight: 400;
+      color: #8A8A8B;
     }
 
     &__title {
@@ -148,4 +160,8 @@
       }
     }
   }
+}
+
+.swiper .articles-card {
+  border: none;
 }

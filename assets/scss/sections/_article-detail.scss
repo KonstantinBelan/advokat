@@ -31,11 +31,11 @@
     min-width: 0;
     max-width: 100%;
     width: 100%;
-    padding: rem(32);
-    border: rem(1) solid #D6D6D6;
-    border-radius: rem(12);
 
     @include media-up($bp-tablet) {
+      padding: rem(32);
+      border: rem(1) solid #D6D6D6;
+      border-radius: rem(12);
       gap: rem(24);
     }
   }
@@ -59,7 +59,7 @@
 
   &__title {
     font-family: $font-title;
-    font-size: rem(26);
+    font-size: rem(22);
     font-weight: 400;
     line-height: 1.25;
     color: $color-primary;
@@ -71,6 +71,12 @@
     @include media-up($bp-tablet) {
       font-size: rem(32);
     }
+  }
+
+  &__date {
+    font-size: rem(14);
+    font-weight: 400;
+    color: #8A8A8B;
   }
 
   &__lead {
