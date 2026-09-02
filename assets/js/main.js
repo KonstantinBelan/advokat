@@ -347,6 +347,20 @@ document.querySelectorAll('.article-detail__video-thumb').forEach((thumb) => {
     });
 });
 
+// Consultation Question Expand Toggle
+document.querySelectorAll('.consultation-card__more-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const card = btn.closest('.consultation-card');
+        if (card) {
+            const text = card.querySelector('.consultation-card__text');
+            if (text) {
+                const isTruncated = text.classList.toggle('is-truncated');
+                btn.textContent = isTruncated ? 'Показать полностью...' : 'Свернуть';
+            }
+        }
+    });
+});
+
 // Run review clamp on load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initReviewsClamp);

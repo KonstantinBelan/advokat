@@ -1,0 +1,584 @@
+// ==========================================
+// Consultation Page Styles
+// ==========================================
+@use '../abstracts' as *;
+
+.consultation {
+  padding: rem(36) 0 rem(60);
+
+  @include media-up($bp-tablet) {
+    padding: rem(48) 0 rem(80);
+  }
+
+  &__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(36);
+    align-items: start;
+
+    @include media-up($bp-desktop) {
+      grid-template-columns: minmax(0, 1fr) rem(388);
+      gap: rem(40);
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: rem(20);
+    min-width: 0;
+  }
+
+  &__pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: rem(10);
+
+    .btn--outline-more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: rem(8);
+      padding: rem(14) rem(36);
+      font-size: rem(15);
+      font-weight: 500;
+      color: $color-primary;
+      border: 1px solid #DADADA;
+      border-radius: rem(12);
+      background: $color-white;
+      cursor: pointer;
+      width: 100%;
+      max-width: rem(320);
+      transition: background-color $transition-fast, border-color $transition-fast;
+
+      &:hover {
+        background-color: #F8F8F9;
+        border-color: #BDBDBD;
+      }
+    }
+  }
+
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: rem(20);
+  }
+}
+
+// Question Card
+.consultation-card {
+  background: $color-white;
+  border: 1px solid #DADADA;
+  border-radius: rem(14);
+  padding: rem(20);
+  display: flex;
+  flex-direction: column;
+  gap: rem(14);
+  transition: border-color $transition-fast, box-shadow $transition-fast;
+
+  @include media-up($bp-tablet) {
+    padding: rem(24);
+    gap: rem(16);
+  }
+
+  &:hover {
+    border-color: #BFBFBF;
+    box-shadow: 0 rem(4) rem(16) rgba(0, 0, 0, 0.04);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: rem(10);
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    font-size: rem(13.5);
+    color: #7B7D84;
+    flex-wrap: wrap;
+  }
+
+  &__author {
+    font-weight: 600;
+    color: $color-primary;
+  }
+
+  &__sep {
+    color: #DADADA;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    background: #191726;
+    color: $color-white;
+    font-size: rem(12.5);
+    font-weight: 500;
+    padding: rem(5) rem(14);
+    border-radius: rem(100);
+    text-decoration: none;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: #2F2C44;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-size: rem(18);
+    font-weight: 600;
+    line-height: 1.35;
+    color: $color-primary;
+
+    @include media-up($bp-tablet) {
+      font-size: rem(20);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $color-red;
+      }
+    }
+  }
+
+  &__text {
+    margin: 0;
+    font-size: rem(14.5);
+    line-height: 1.6;
+    color: #4A4D54;
+
+    @include media-up($bp-tablet) {
+      font-size: rem(15);
+    }
+
+    &.is-truncated {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  &__more-btn {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    padding: 0;
+    color: #8C8E96;
+    font-size: rem(13.5);
+    cursor: pointer;
+    margin-top: rem(-4);
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: rem(14);
+    border-top: 1px solid #F0F0F2;
+    font-size: rem(13.5);
+    gap: rem(12);
+  }
+
+  &__responder {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+    color: #7B7D84;
+
+    strong {
+      color: $color-primary;
+      font-weight: 600;
+    }
+  }
+
+  &__avatar {
+    width: rem(30);
+    height: rem(30);
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background-color: #E5E7EB;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__views {
+    display: flex;
+    align-items: center;
+    gap: rem(6);
+    color: #8C8E96;
+    font-size: rem(13);
+
+    svg {
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+  }
+}
+
+// Consultation Search
+.consultation-search {
+  position: relative;
+  width: 100%;
+
+  &__input {
+    width: 100%;
+    height: rem(48);
+    padding: 0 rem(44) 0 rem(16);
+    border: 1px solid #DADADA;
+    border-radius: rem(10);
+    background: $color-white;
+    font-size: rem(14.5);
+    color: $color-primary;
+    outline: none;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &::placeholder {
+      color: #8C8E96;
+    }
+
+    &:focus {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 3px rgba(25, 23, 38, 0.08);
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    right: rem(14);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    color: #8C8E96;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $color-primary;
+    }
+  }
+}
+
+// Categories Widget
+.consultation-categories {
+  background: $color-white;
+  border: 1px solid #DADADA;
+  border-radius: rem(14);
+  padding: rem(24);
+  display: flex;
+  flex-direction: column;
+  gap: rem(16);
+
+  &__title {
+    font-family: $font-main;
+    font-size: rem(19);
+    font-weight: 600;
+    color: $color-primary;
+    margin: 0;
+  }
+
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    border-bottom: 1px solid #F5F5F5;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__link {
+    display: block;
+    padding: rem(7.5) 0;
+    font-size: rem(13.5);
+    line-height: 1.4;
+    color: $color-primary;
+    text-decoration: none;
+    transition: color $transition-fast, transform $transition-fast;
+
+    &:hover {
+      color: $color-red;
+      transform: translateX(rem(2));
+    }
+  }
+}
+
+// Consultation Form Section
+.consultation-form-section {
+  padding: 0 0 rem(60);
+
+  @include media-up($bp-tablet) {
+    padding: 0 0 rem(80);
+  }
+
+  &__banner {
+    position: relative;
+    border-radius: rem(20);
+    overflow: hidden;
+    padding: rem(48) rem(20);
+    background: #191726 url('../img/consultation-help.webp') center / cover no-repeat;
+
+    @include media-up($bp-tablet) {
+      border-radius: rem(24);
+      padding: rem(64) rem(32);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(18, 16, 28, 0.85);
+      z-index: 1;
+    }
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    max-width: rem(640);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  &__title {
+    font-family: $font-title;
+    font-size: rem(26);
+    font-weight: 400;
+    color: $color-white;
+    text-transform: uppercase;
+    margin: 0 0 rem(12);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(34);
+    }
+  }
+
+  &__subtitle {
+    font-size: rem(15);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 rem(32);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(16);
+    }
+  }
+
+  &__card {
+    background: $color-white;
+    border-radius: rem(16);
+    padding: rem(24) rem(20);
+    box-shadow: 0 rem(12) rem(40) rgba(0, 0, 0, 0.25);
+    text-align: left;
+
+    @include media-up($bp-tablet) {
+      padding: rem(32) rem(28);
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
+  }
+
+  &__field-group {
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+  }
+
+  &__input {
+    width: 100%;
+    height: rem(48);
+    padding: 0 rem(16);
+    border: 1px solid #DADADA;
+    border-radius: rem(10);
+    background: #FAFAFB;
+    font-size: rem(14.5);
+    color: $color-primary;
+    outline: none;
+    transition: border-color $transition-fast, background-color $transition-fast;
+
+    &:focus {
+      border-color: $color-primary;
+      background-color: $color-white;
+    }
+
+    &::placeholder {
+      color: #8C8E96;
+    }
+  }
+
+  &__helper {
+    font-size: rem(12);
+    color: #8C8E96;
+    line-height: 1.4;
+  }
+
+  &__select-wrapper {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: rem(16);
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #8C8E96;
+      pointer-events: none;
+    }
+  }
+
+  &__select {
+    width: 100%;
+    height: rem(48);
+    padding: 0 rem(36) 0 rem(16);
+    border: 1px solid #DADADA;
+    border-radius: rem(10);
+    background: #FAFAFB;
+    font-size: rem(14.5);
+    color: $color-primary;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color $transition-fast, background-color $transition-fast;
+
+    &:focus {
+      border-color: $color-primary;
+      background-color: $color-white;
+    }
+
+    option[disabled] {
+      color: #8C8E96;
+    }
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: rem(110);
+    padding: rem(12) rem(16);
+    border: 1px solid #DADADA;
+    border-radius: rem(10);
+    background: #FAFAFB;
+    font-size: rem(14.5);
+    color: $color-primary;
+    outline: none;
+    resize: vertical;
+    transition: border-color $transition-fast, background-color $transition-fast;
+
+    &:focus {
+      border-color: $color-primary;
+      background-color: $color-white;
+    }
+
+    &::placeholder {
+      color: #8C8E96;
+    }
+  }
+
+  &__attach {
+    display: inline-flex;
+    align-items: center;
+    gap: rem(8);
+    font-size: rem(13.5);
+    color: #60626A;
+    cursor: pointer;
+    transition: color $transition-fast;
+    width: fit-content;
+
+    svg {
+      color: #8C8E96;
+      transition: color $transition-fast;
+    }
+
+    &:hover {
+      color: $color-primary;
+
+      svg {
+        color: $color-primary;
+      }
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(14);
+
+    @include media-up($bp-tablet) {
+      grid-template-columns: 1fr 1fr;
+      gap: rem(16);
+    }
+  }
+
+  &__submit {
+    margin-top: rem(4);
+
+    .btn {
+      width: 100%;
+      height: rem(52);
+      font-size: rem(16);
+      font-weight: 600;
+      border-radius: rem(12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: rem(8);
+    }
+  }
+
+  &__agreement {
+    font-size: rem(12);
+    line-height: 1.5;
+    color: #8C8E96;
+    text-align: center;
+    margin: rem(14) 0 0;
+
+    a {
+      color: #8C8E96;
+      text-decoration: underline;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+}

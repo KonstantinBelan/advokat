@@ -9,6 +9,13 @@
   max-height: none;
   // background: linear-gradient(180deg, rgba(14, 18, 22, 0.85) 0%, rgba(14, 18, 22, 0.72) 35%, rgba(14, 18, 22, 0.84) 70%, rgba(14, 18, 22, 0.96) 100%), url('../img/hero-2x.webp') 82% 25% / cover no-repeat;
   background: linear-gradient(180deg, rgba(14, 18, 22, 0.2) 0%, rgba(14, 18, 22, 0.6) 35%, rgba(14, 18, 22, 0.8) 70%, rgba(14, 18, 22, 0.96) 100%), url('../img/hero-2x.webp') 82% 25% / cover no-repeat;
+  position: relative;
+  z-index: 1;
+
+  +section {
+    position: relative;
+    z-index: 2;
+  }
 
   @include media-up($bp-tablet) {
     padding: rem(160) 0 rem(120);
@@ -62,6 +69,62 @@
       @include media-up($bp-desktop) {
         bottom: rem(-90);
       }
+    }
+  }
+
+  &--consultation {
+    background: #15131f url('../img/consultation-hero.webp') right center / cover no-repeat;
+    padding: rem(125) 0 rem(60);
+    position: relative;
+    overflow: hidden;
+
+    @include media-up($bp-tablet) {
+      padding: rem(140) 0 rem(75);
+    }
+
+    @include media-up($bp-desktop) {
+      padding: rem(160) 0 rem(95);
+    }
+
+    .hero__content {
+      max-width: rem(680);
+      gap: rem(18);
+
+      @include media-up($bp-tablet) {
+        gap: rem(22);
+      }
+    }
+
+    .hero__title {
+      font-size: rem(30);
+      line-height: 1.15;
+      font-family: $font-title;
+      text-transform: uppercase;
+      color: $color-white;
+      margin: 0;
+
+      @include media-up($bp-tablet) {
+        font-size: rem(40);
+      }
+
+      @include media-up($bp-desktop) {
+        font-size: rem(46);
+      }
+    }
+
+    .hero__description {
+      font-size: rem(15.5);
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0;
+
+      @include media-up($bp-tablet) {
+        font-size: rem(17);
+      }
+    }
+
+    .hero__actions {
+      margin-top: rem(6);
     }
   }
 
