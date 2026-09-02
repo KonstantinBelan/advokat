@@ -23,6 +23,21 @@
     min-width: 0;
   }
 
+  &__category-title {
+    font-family: $font-title;
+    font-size: rem(22);
+    font-weight: 400;
+    line-height: 1.25;
+    color: $color-primary;
+    text-transform: uppercase;
+    margin: 0 0 rem(16);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(28);
+      margin: 0 0 rem(24);
+    }
+  }
+
   &__pagination {
     display: flex;
     justify-content: center;
@@ -323,8 +338,10 @@
     text-decoration: none;
     transition: color $transition-fast, transform $transition-fast;
 
-    &:hover {
+    &:hover,
+    &--active {
       color: $color-red;
+      font-weight: 600;
       transform: translateX(rem(2));
     }
   }

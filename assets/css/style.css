@@ -4655,6 +4655,21 @@ footer {
   gap: 1.25rem;
   min-width: 0;
 }
+.consultation__category-title {
+  font-family: "Anticva", serif;
+  font-size: 1.375rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #191726;
+  text-transform: uppercase;
+  margin: 0 0 1rem;
+}
+@media (min-width: 768px) {
+  .consultation__category-title {
+    font-size: 1.75rem;
+    margin: 0 0 1.5rem;
+  }
+}
 .consultation__pagination {
   display: flex;
   justify-content: center;
@@ -4921,8 +4936,9 @@ footer {
   text-decoration: none;
   transition: color 0.2s ease, transform 0.2s ease;
 }
-.consultation-categories__link:hover {
+.consultation-categories__link:hover, .consultation-categories__link--active {
   color: linear-gradient(273.35deg, #CE494C 0%, #C1211E 75.76%);
+  font-weight: 600;
   transform: translateX(0.125rem);
 }
 
