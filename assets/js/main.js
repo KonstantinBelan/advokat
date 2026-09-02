@@ -322,6 +322,31 @@ mobileArrowBtns.forEach((btn) => {
     });
 });
 
+// Article Video Play on Click (VK iframe embed)
+document.querySelectorAll('.article-detail__video-thumb').forEach((thumb) => {
+    thumb.addEventListener('click', function () {
+        if (this.classList.contains('is-playing')) return;
+
+        const videoSrc = this.getAttribute('data-video-src') || 'https://vkvideo.ru/video_ext.php?oid=-22822305&id=456239103&hd=2&autoplay=1';
+
+        let iframe = this.querySelector('iframe');
+        if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.setAttribute('src', videoSrc);
+            iframe.setAttribute('width', '100%');
+            iframe.setAttribute('height', '100%');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;');
+            iframe.setAttribute('allowfullscreen', 'true');
+            this.appendChild(iframe);
+        } else if (!iframe.getAttribute('src')) {
+            iframe.setAttribute('src', videoSrc);
+        }
+
+        this.classList.add('is-playing');
+    });
+});
+
 // Run review clamp on load
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initReviewsClamp);
