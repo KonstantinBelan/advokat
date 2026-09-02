@@ -4,12 +4,6 @@
 @use '../abstracts' as *;
 
 .consultation {
-  padding: rem(36) 0 rem(60);
-
-  @include media-up($bp-tablet) {
-    padding: rem(48) 0 rem(80);
-  }
-
   &__layout {
     display: grid;
     grid-template-columns: 1fr;
@@ -17,7 +11,7 @@
     align-items: start;
 
     @include media-up($bp-desktop) {
-      grid-template-columns: minmax(0, 1fr) rem(388);
+      grid-template-columns: minmax(0, 1fr) rem(320);
       gap: rem(40);
     }
   }
@@ -39,7 +33,7 @@
       align-items: center;
       justify-content: center;
       gap: rem(8);
-      padding: rem(14) rem(36);
+      padding: rem(20) rem(36);
       font-size: rem(15);
       font-weight: 500;
       color: $color-primary;
@@ -48,7 +42,6 @@
       background: $color-white;
       cursor: pointer;
       width: 100%;
-      max-width: rem(320);
       transition: background-color $transition-fast, border-color $transition-fast;
 
       &:hover {
@@ -73,12 +66,12 @@
   padding: rem(20);
   display: flex;
   flex-direction: column;
-  gap: rem(14);
+  gap: rem(20);
   transition: border-color $transition-fast, box-shadow $transition-fast;
 
   @include media-up($bp-tablet) {
     padding: rem(24);
-    gap: rem(16);
+    gap: rem(24);
   }
 
   &:hover {
@@ -92,6 +85,8 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: rem(10);
+    padding-bottom: rem(24);
+    border-bottom: rem(1) solid #D8D8D8;
   }
 
   &__meta {
@@ -131,13 +126,13 @@
 
   &__title {
     margin: 0;
-    font-size: rem(18);
-    font-weight: 600;
-    line-height: 1.35;
+    font-size: rem(20);
+    font-weight: 400;
+    line-height: 1.6;
     color: $color-primary;
 
     @include media-up($bp-tablet) {
-      font-size: rem(20);
+      font-size: rem(26);
     }
 
     a {
@@ -189,7 +184,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: rem(14);
+    padding-top: rem(24);
     border-top: 1px solid #F0F0F2;
     font-size: rem(13.5);
     gap: rem(12);
@@ -208,8 +203,8 @@
   }
 
   &__avatar {
-    width: rem(30);
-    height: rem(30);
+    width: rem(42);
+    height: rem(42);
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
@@ -244,7 +239,7 @@
 
   &__input {
     width: 100%;
-    height: rem(48);
+    height: rem(62);
     padding: 0 rem(44) 0 rem(16);
     border: 1px solid #DADADA;
     border-radius: rem(10);
@@ -337,30 +332,23 @@
 
 // Consultation Form Section
 .consultation-form-section {
-  padding: 0 0 rem(60);
+  padding: 0 0 rem(46);
+  margin: 0;
 
   @include media-up($bp-tablet) {
-    padding: 0 0 rem(80);
+    padding: 0 0 rem(72);
   }
 
   &__banner {
     position: relative;
     border-radius: rem(20);
     overflow: hidden;
-    padding: rem(48) rem(20);
-    background: #191726 url('../img/consultation-help.webp') center / cover no-repeat;
+    padding: rem(50) rem(20);
+    background: #3d4240 url('../img/consultation-help.webp') center / cover no-repeat;
 
     @include media-up($bp-tablet) {
       border-radius: rem(24);
       padding: rem(64) rem(32);
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(18, 16, 28, 0.85);
-      z-index: 1;
     }
   }
 
@@ -378,7 +366,7 @@
     font-weight: 400;
     color: $color-white;
     text-transform: uppercase;
-    margin: 0 0 rem(12);
+    margin: 0 0 rem(24);
 
     @include media-up($bp-tablet) {
       font-size: rem(34);
@@ -390,6 +378,9 @@
     line-height: 1.55;
     color: rgba(255, 255, 255, 0.8);
     margin: 0 0 rem(32);
+    max-width: rem(520);
+    margin-left: auto;
+    margin-right: auto;
 
     @include media-up($bp-tablet) {
       font-size: rem(16);
@@ -422,7 +413,7 @@
 
   &__input {
     width: 100%;
-    height: rem(48);
+    height: rem(52);
     padding: 0 rem(16);
     border: 1px solid #DADADA;
     border-radius: rem(10);
@@ -468,7 +459,7 @@
 
   &__select {
     width: 100%;
-    height: rem(48);
+    height: rem(52);
     padding: 0 rem(36) 0 rem(16);
     border: 1px solid #DADADA;
     border-radius: rem(10);
@@ -492,7 +483,7 @@
 
   &__textarea {
     width: 100%;
-    min-height: rem(110);
+    min-height: rem(140);
     padding: rem(12) rem(16);
     border: 1px solid #DADADA;
     border-radius: rem(10);
@@ -553,7 +544,7 @@
 
     .btn {
       width: 100%;
-      height: rem(52);
+      max-height: rem(70);
       font-size: rem(16);
       font-weight: 600;
       border-radius: rem(12);
