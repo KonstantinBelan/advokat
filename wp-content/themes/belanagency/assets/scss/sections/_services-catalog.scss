@@ -1,0 +1,138 @@
+// ==========================================
+// Services Catalog Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.services-catalog {
+
+  &__header {
+    margin-bottom: rem(24);
+
+    @include media-up($bp-tablet) {
+      margin-bottom: rem(32);
+    }
+  }
+
+  &__title {
+    font-family: $font-title;
+    text-transform: uppercase;
+    font-size: rem(22);
+    font-weight: 400;
+    color: $color-primary;
+    line-height: 1.25;
+    letter-spacing: rem(0.5);
+
+    @include media-up($bp-mobile) {
+      font-size: rem(26);
+    }
+
+    @include media-up($bp-tablet) {
+      font-size: rem(30);
+    }
+
+    @include media-up($bp-desktop) {
+      font-size: rem(34);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(16);
+
+    @include media-up($bp-tablet) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(20);
+    }
+
+    @include media-up($bp-desktop) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(24);
+    }
+  }
+}
+
+.services-card {
+  background-color: $color-white;
+  border-radius: rem(16);
+  padding: rem(24) rem(20);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  @include media-up($bp-tablet) {
+    padding: rem(28) rem(24);
+  }
+
+  &--grey {
+    background-color: #F4F4F6;
+
+    .services-card__icon {
+      background-color: $color-white;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    gap: rem(14);
+    margin-bottom: rem(14);
+  }
+
+  &__icon {
+    width: rem(42);
+    height: rem(42);
+    background-color: #F4F4F6;
+    border-radius: rem(10);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: $color-primary;
+
+    svg {
+      width: rem(22);
+      height: rem(22);
+    }
+  }
+
+  &__title {
+    font-family: $font-main;
+    font-size: rem(15.5);
+    font-weight: 600;
+    line-height: 1.35;
+    color: $color-primary;
+    margin: 0;
+    align-self: center;
+  }
+
+  &__description {
+    font-size: rem(13.5);
+    line-height: 1.55;
+    color: $color-text-light;
+    margin-bottom: rem(22);
+    flex-grow: 1;
+  }
+
+  &__btn {
+    width: 100%;
+    background: $color-yellow;
+    color: $color-white;
+    border-radius: rem(10);
+    padding: rem(12) rem(16);
+    font-size: rem(14);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(8);
+    transition: opacity $transition-fast;
+    margin-top: auto;
+
+    &:hover {
+      opacity: 0.92;
+    }
+  }
+}

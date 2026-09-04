@@ -1,0 +1,68 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: advokat_mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_123
+      MYSQL_DATABASE: advokat_wp
+      MYSQL_USER: wp_user
+      MYSQL_PASSWORD: wp_password_123
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - wp_network
+
+  wordpress:
+    image: wordpress:6.7-apache
+    container_name: advokat_wordpress
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_password_123
+      WORDPRESS_DB_NAME: advokat_wp
+      WORDPRESS_TABLE_PREFIX: wp_
+      WORDPRESS_DEBUG: 1
+      WORDPRESS_CONFIG_EXTRA: |
+        define('FS_METHOD', 'direct');
+        define('WP_MEMORY_LIMIT', '256M');
+    volumes:
+      - wp_core:/var/www/html
+      - ./wp-content/themes/belanagency:/var/www/html/wp-content/themes/belanagency
+      - ./plugins/advanced-custom-fields-pro:/var/www/html/wp-content/plugins/advanced-custom-fields-pro
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
+    networks:
+      - wp_network
+
+  wpcli:
+    image: wordpress:cli
+    container_name: advokat_wpcli
+    depends_on:
+      - db
+      - wordpress
+    user: "33:33"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wp_user
+      WORDPRESS_DB_PASSWORD: wp_password_123
+      WORDPRESS_DB_NAME: advokat_wp
+    volumes:
+      - wp_core:/var/www/html
+      - ./wp-content/themes/belanagency:/var/www/html/wp-content/themes/belanagency
+      - ./plugins/advanced-custom-fields-pro:/var/www/html/wp-content/plugins/advanced-custom-fields-pro
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
+    networks:
+      - wp_network
+
+volumes:
+  db_data:
+  wp_core:
+
+networks:
+  wp_network:
+    driver: bridge

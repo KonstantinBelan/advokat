@@ -1,0 +1,98 @@
+// ==========================================
+// Advantages Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.advantages {
+  &__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
+    background-color: $color-white;
+    border-radius: $radius-lg;
+    padding: rem(28) rem(24);
+
+    &-number {
+      font-family: $font-title;
+      font-size: rem(32);
+      color: $color-yellow-accent;
+      line-height: 1;
+    }
+
+    &-title {
+      font-family: $font-main;
+      font-size: rem(15);
+      font-weight: 600;
+      line-height: 1.45;
+      color: $color-primary;
+      max-width: rem(290);
+
+      @include media-up($bp-tablet) {
+        font-size: rem(16);
+      }
+
+      @include media-up($bp-desktop) {
+        font-size: rem(18);
+      }
+    }
+
+    &-text {
+      font-size: rem(15);
+      line-height: 1.5;
+      color: $color-text-light;
+    }
+
+    &--button {
+      background: $color-dark-gradient;
+      color: $color-white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+
+      &::after {
+        content: '';
+        width: rem(32);
+        height: rem(32);
+        background: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.32073 0.741522C3.33229 -0.246917 1.72972 -0.246917 0.741278 0.741522C-0.247161 1.72996 -0.247161 3.33254 0.741278 4.32098L2.53101 2.53125L4.32073 0.741522ZM28.531 31.0623C29.9289 31.0623 31.0621 29.9291 31.0621 28.5312L31.0621 5.75174C31.0621 4.35387 29.9289 3.22068 28.531 3.22068C27.1331 3.22068 25.9999 4.35387 26 5.75174L25.9999 26.0002L5.75149 26.0002C4.35363 26.0002 3.22044 27.1334 3.22044 28.5313C3.22044 29.9291 4.35363 31.0623 5.75149 31.0623L28.531 31.0623ZM2.53101 2.53125L0.741278 4.32098L26.7413 30.321L28.531 28.5313L30.3207 26.7415L4.32073 0.741522L2.53101 2.53125Z' fill='white'/%3E%3C/svg%3E%0A") center no-repeat;
+        background-size: cover;
+        margin-left: auto;
+        transition: transform $transition-normal;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: $color-dark-gradient-hover;
+        opacity: 0;
+        z-index: -1;
+        transition: opacity $transition-normal;
+      }
+
+      .advantages__card-title {
+        color: $color-white;
+        padding-right: 0;
+        font-size: rem(17);
+      }
+
+      &:hover {
+        ::before {
+          opacity: 1;
+        }
+
+        &::after {
+          transform: rotate(-90deg);
+        }
+      }
+    }
+  }
+}

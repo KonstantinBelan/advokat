@@ -1,0 +1,190 @@
+// ==========================================
+// Articles Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.articles {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: rem(16);
+    margin-bottom: rem(32);
+
+    @include media-up($bp-tablet) {
+      margin-bottom: rem(40);
+    }
+  }
+
+  &__btn-blog {
+    background: $color-yellow;
+    color: $color-white;
+    border-radius: rem(10);
+    padding: rem(10) rem(20);
+    font-size: rem(14);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: rem(8);
+    transition: opacity $transition-fast;
+
+    &:hover {
+      opacity: 0.92;
+    }
+  }
+
+  &__wrapper {
+    position: relative;
+    overflow: hidden;
+    padding: rem(6) rem(2);
+  }
+
+  &__cards {
+    display: flex;
+  }
+
+  &-card {
+    height: auto;
+    background-color: $color-white;
+    border: 1px solid #DADADA;
+    border-radius: rem(16);
+    padding: rem(12);
+    padding-bottom: rem(32);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+
+    &__image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: rem(180);
+      border-radius: rem(12);
+      overflow: hidden;
+      background-color: #E5E7EB;
+
+      @include media-up($bp-tablet) {
+        height: rem(190);
+      }
+
+      picture,
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+
+    &__category {
+      background-color: #F4F4F6;
+      border-radius: rem(10);
+      padding: rem(6) rem(12);
+      font-size: rem(12);
+      font-weight: 500;
+      color: $color-primary;
+      display: inline-block;
+      align-self: flex-start;
+      margin: rem(20) 0 rem(16);
+      margin-left: rem(20);
+      margin-right: rem(20);
+      text-decoration: none;
+      transition: background-color $transition-fast, color $transition-fast;
+
+      @include media-down($bp-mobile) {
+        margin: rem(16) rem(4);
+      }
+
+      &:hover {
+        background-color: #E5E7EB;
+        color: $color-primary;
+      }
+    }
+
+    &__meta {
+      margin: rem(16) rem(20);
+      padding-bottom: rem(6);
+      border-bottom: rem(1) solid #DADADA;
+      font-size: rem(14);
+      font-weight: 400;
+      color: #8A8A8B;
+
+      @include media-down($bp-mobile) {
+        margin: rem(16) rem(4);
+      }
+    }
+
+    &__title {
+      font-family: $font-main;
+      font-size: rem(17);
+      font-weight: 600;
+      line-height: 1.4;
+      color: $color-primary;
+      margin-bottom: rem(12);
+      margin-left: rem(20);
+      margin-right: rem(20);
+
+      @include media-up($bp-tablet) {
+        font-size: rem(19);
+      }
+
+      @include media-down($bp-mobile) {
+        margin-left: rem(4);
+        margin-right: rem(4);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+        transition: color $transition-fast;
+
+        &:hover {
+          color: $color-red-hex;
+        }
+      }
+    }
+
+    &__description {
+      font-size: rem(13.5);
+      line-height: 1.5;
+      color: #6B7280;
+      margin-bottom: rem(14);
+      @include text-truncate(3);
+      margin-left: rem(20);
+      margin-right: rem(20);
+
+      @include media-down($bp-mobile) {
+        margin-left: rem(4);
+        margin-right: rem(4);
+      }
+    }
+
+    &__read-more {
+      font-size: rem(13.5);
+      font-weight: 500;
+      color: #CE494C;
+      text-decoration: underline;
+      margin-top: auto;
+      display: inline-block;
+      transition: color $transition-fast;
+      margin-left: rem(20);
+      margin-right: rem(20);
+
+      @include media-down($bp-mobile) {
+        margin-left: rem(4);
+        margin-right: rem(4);
+      }
+
+      &:hover {
+        color: #A82023;
+      }
+    }
+  }
+}
+
+.swiper .articles-card {
+  border: none;
+}

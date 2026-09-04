@@ -21,6 +21,14 @@ function getImageSizes(filename, meta) {
   const originalWidth = meta.width;
 
   // Specific preset mappings
+  if (name === 'hero-img') {
+    return [
+      { suffix: '-sm', width: 56 },
+      { suffix: '', width: 82 },
+      { suffix: '-2x', width: 164 },
+    ];
+  }
+
   if (name.startsWith('hero')) {
     return [
       { suffix: '-mobile', width: 480 },

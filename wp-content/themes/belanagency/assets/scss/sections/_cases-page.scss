@@ -1,0 +1,34 @@
+// ==========================================
+// Cases Page (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.cases-page {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(16);
+
+    @include media-up($bp-tablet) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(20);
+    }
+
+    @include media-up($bp-desktop) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: rem(24);
+    }
+  }
+
+  &__card--hidden {
+    display: none;
+  }
+
+  &__more-wrapper {
+    margin-top: rem(28);
+
+    @include media-up($bp-tablet) {
+      margin-top: rem(36);
+    }
+  }
+}

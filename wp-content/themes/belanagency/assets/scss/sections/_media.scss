@@ -1,0 +1,136 @@
+// ==========================================
+// Media / Press Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.media {
+  padding: rem(60) 0;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+
+  .section__header {
+    margin-bottom: rem(24);
+
+  }
+
+  @include media-up($bp-tablet) {
+    padding: rem(80) 0;
+    padding-top: 0 !important;
+  }
+
+  &__card {
+    background-color: $color-white;
+    border-radius: rem(20);
+    padding: rem(24) rem(20);
+    box-shadow: 0 rem(4) rem(24) rgba(0, 0, 0, 0.04);
+    margin-top: rem(28);
+
+    @include media-up($bp-tablet) {
+      padding: rem(28) rem(32);
+    }
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(14);
+    padding: rem(20) 0;
+    border-bottom: 1px solid #EEEEEE;
+    align-items: center;
+
+    @include media-up($bp-tablet) {
+      grid-template-columns: 1.1fr 2fr auto;
+      gap: rem(24);
+      padding: rem(22) 0;
+    }
+
+    &--hidden {
+      display: none !important;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &-title {
+      display: flex;
+      align-items: center;
+      gap: rem(12);
+
+      p {
+        font-size: rem(14);
+        font-weight: 600;
+        line-height: 1.55;
+        color: $color-primary;
+
+        @include media-up($bp-tablet) {
+          font-size: rem(16);
+        }
+      }
+    }
+
+    &-icon {
+      width: rem(18);
+      height: rem(18);
+      flex-shrink: 0;
+    }
+
+    &-description {
+      p {
+        font-size: rem(14);
+        line-height: 1.55;
+        color: $color-text-light;
+      }
+    }
+
+    &-btn {
+      background-color: #F4F4F6;
+      color: $color-primary;
+      font-size: rem(13.5);
+      font-weight: 500;
+      border-radius: 9999px;
+      padding: rem(8) rem(24);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color $transition-fast;
+      align-self: flex-start;
+
+      @include media-up($bp-tablet) {
+        align-self: center;
+      }
+
+      &:hover {
+        background-color: #E5E7EB;
+      }
+    }
+  }
+
+  &__show-more {
+    margin-top: rem(20);
+    background: $color-yellow;
+    color: $color-white;
+    border-radius: rem(12);
+    padding: rem(16);
+    width: 100%;
+    font-size: rem(15);
+    font-weight: 600;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(8);
+    text-decoration: none;
+    transition: opacity $transition-fast;
+
+    &:hover {
+      opacity: 0.92;
+    }
+  }
+}

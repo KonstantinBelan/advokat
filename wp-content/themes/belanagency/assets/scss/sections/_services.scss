@@ -1,0 +1,130 @@
+// ==========================================
+// Services Section (Auto Scale)
+// ==========================================
+@use '../abstracts' as *;
+
+.services {
+  &__wrapper {
+    background-color: #F4F4F6;
+    border-radius: rem(24);
+    padding: rem(24) rem(20);
+    margin-top: rem(32);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: rem(28);
+    align-items: stretch;
+
+    @include media-up($bp-tablet) {
+      padding: rem(32) rem(32);
+    }
+
+    @include media-up($bp-desktop) {
+      grid-template-columns: 1.35fr 1fr;
+      padding: rem(36) rem(36) rem(36) rem(44);
+      gap: rem(32);
+    }
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-family: $font-main;
+    font-size: rem(16);
+    font-weight: 600;
+    color: $color-primary;
+    margin-bottom: rem(26);
+
+    @include media-up($bp-tablet) {
+      font-size: rem(22);
+    }
+
+    &--white {
+      color: $color-white;
+    }
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: rem(10);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    &--column {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: rem(12);
+    }
+  }
+
+  &__pill {
+    background-color: $color-white;
+    border-radius: rem(12);
+    padding: rem(10) rem(18);
+    font-size: rem(13.5);
+    font-weight: 500;
+    color: $color-primary;
+    display: inline-flex;
+    align-items: center;
+    gap: rem(8);
+    text-decoration: none;
+    transition: transform $transition-fast;
+
+    @include media-up($bp-tablet) {
+      border-radius: 9999px;
+    }
+
+    &:hover {
+      transform: translateY(rem(-2));
+      box-shadow: 0 rem(4) rem(12) rgba(0, 0, 0, 0.07);
+    }
+
+    &-arrow {
+      font-size: rem(14);
+      font-weight: 700;
+      line-height: 1;
+
+      &--red {
+        color: #CE494C;
+      }
+
+      &--yellow {
+        color: #C1B26B;
+      }
+    }
+  }
+
+  &__right {
+    background: url('../img/hero-2x.webp') center / cover no-repeat, linear-gradient(135deg, #22292C 0%, #1A2022 100%);
+    border-radius: rem(20);
+    padding: rem(28) rem(24);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    @include media-up($bp-tablet) {
+      padding: rem(32) rem(28);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 35, 38, 0.88);
+      z-index: 1;
+    }
+
+    &-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

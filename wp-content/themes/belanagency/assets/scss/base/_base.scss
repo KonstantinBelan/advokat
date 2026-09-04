@@ -1,0 +1,38 @@
+// ==========================================
+// Base & Auto Scale Root Classes
+// ==========================================
+@use '../abstracts' as *;
+
+html {
+  // Auto Scale Root:
+  // Mobile / Small screens (320px - 767px): relative to 375px design width
+  font-size: clamp(13px, calc(100vw / #{$design-width-mobile} * 16), 20px);
+
+  // Tablet & Desktop (768px - 1439px): relative to 1440px design width
+  @include media-up($bp-tablet) {
+    font-size: clamp(11.5px, calc(100vw / #{$design-width-desktop} * 16), 18px);
+  }
+
+  // Large Desktop (1440px+): scales proportionally
+  @include media-up($bp-wide) {
+    font-size: clamp(16px, calc(100vw / #{$design-width-desktop} * 16), 22px);
+  }
+}
+
+body {
+  font-size: 1rem;
+  color: $color-text;
+  background-color: $color-white;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 0 $container-padding;
+}
+
+.bg-gray {
+  background-color: $color-bg-gray !important;
+}
