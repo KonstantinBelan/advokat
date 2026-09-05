@@ -119,49 +119,7 @@ function belan_ajax_load_more_handler() {
         $idx = ($paged - 1) * $per_page;
         while ($query->have_posts()) {
             $query->the_post();
-            $idx++;
-            $author   = belan_field('consultation_author', get_the_ID(), 'Анонимно');
-            $date     = get_the_date('d.m.Y');
-            $question = belan_field('consultation_question', get_the_ID(), get_the_excerpt());
-            $cats     = get_the_terms(get_the_ID(), 'consultation_category');
-            $cat_name = (!empty($cats) && !is_wp_error($cats)) ? $cats[0]->name : 'Общие вопросы';
-            $cat_link = (!empty($cats) && !is_wp_error($cats)) ? get_term_link($cats[0]) : '#';
-            ?>
-            <article class="consultation-card">
-                <div class="consultation-card__header">
-                    <div class="consultation-card__meta">
-                        <span class="consultation-card__author"><?php echo esc_html($author); ?></span>
-                        <span class="consultation-card__sep">/</span>
-                        <span class="consultation-card__num">Вопрос № <?php echo get_the_ID(); ?></span>
-                        <span class="consultation-card__sep">/</span>
-                        <span class="consultation-card__date"><?php echo esc_html($date); ?></span>
-                    </div>
-                    <a href="<?php echo esc_url($cat_link); ?>" class="consultation-card__badge"><?php echo esc_html($cat_name); ?></a>
-                </div>
-                <h3 class="consultation-card__title">
-                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                </h3>
-                <p class="consultation-card__text">
-                    <?php echo esc_html($question); ?>
-                </p>
-                <div class="consultation-card__footer">
-                    <div class="consultation-card__responder">
-                        <span>Отвечает</span>
-                        <div class="consultation-card__avatar">
-                            <img src="<?php echo esc_url(belan_asset('img/about.webp')); ?>" alt="Ежов Антон">
-                        </div>
-                        <strong>Ежов Антон</strong>
-                    </div>
-                    <div class="consultation-card__views">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                            <circle cx="12" cy="12" r="3" />
-                        </svg>
-                        <span><?php echo (30 + $idx * 15); ?></span>
-                    </div>
-                </div>
-            </article>
-            <?php
+            belan_render_consultation_card(get_the_ID());
         }
     } elseif ($post_type === 'cases') {
         while ($query->have_posts()) {

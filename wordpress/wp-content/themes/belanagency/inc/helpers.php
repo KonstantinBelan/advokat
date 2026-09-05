@@ -33,6 +33,12 @@ function belan_field($name, $post_id = false, $default = '') {
             return $val;
         }
     }
+    if ($post_id) {
+        $meta = get_post_meta($post_id, $name, true);
+        if ($meta !== '' && $meta !== false && $meta !== null) {
+            return $meta;
+        }
+    }
     return $default;
 }
 

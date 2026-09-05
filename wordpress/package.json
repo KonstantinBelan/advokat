@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Адвокатский кабинет - сайт адвоката Ежова А.В.",
   "scripts": {
-    "build:css": "sass wp-content/themes/belanagency/assets/scss/style.scss wp-content/themes/belanagency/assets/css/style.css --style=expanded && cp wp-content/themes/belanagency/assets/css/style.css assets/css/style.css",
-    "build:min": "sass wp-content/themes/belanagency/assets/scss/style.scss wp-content/themes/belanagency/assets/css/style.min.css --style=compressed && cp wp-content/themes/belanagency/assets/css/style.min.css assets/css/style.min.css",
+    "build:css": "sass wp-content/themes/belanagency/assets/scss/style.scss wp-content/themes/belanagency/assets/css/style.css --style=expanded && cp wp-content/themes/belanagency/assets/css/style.css ../assets/css/style.css",
+    "build:min": "sass wp-content/themes/belanagency/assets/scss/style.scss wp-content/themes/belanagency/assets/css/style.min.css --style=compressed && cp wp-content/themes/belanagency/assets/css/style.min.css ../assets/css/style.min.css",
     "images": "node scripts/optimize-images.js",
     "images:force": "node scripts/optimize-images.js --force",
     "images:watch": "node scripts/optimize-images.js --watch",
     "build": "run-p build:css build:min images",
-    "watch:css": "sass --watch wp-content/themes/belanagency/assets/scss/style.scss:wp-content/themes/belanagency/assets/css/style.css --style=expanded",
-    "watch:min": "sass --watch wp-content/themes/belanagency/assets/scss/style.scss:wp-content/themes/belanagency/assets/css/style.min.css --style=compressed",
+    "watch:css": "sass --watch wp-content/themes/belanagency/assets/scss/style.scss:wp-content/themes/belanagency/assets/css/style.css --style=expanded && cp wp-content/themes/belanagency/assets/css/style.css ../assets/css/style.css",
+    "watch:min": "sass --watch wp-content/themes/belanagency/assets/scss/style.scss:wp-content/themes/belanagency/assets/css/style.min.css --style=compressed && cp wp-content/themes/belanagency/assets/css/style.min.css ../assets/css/style.min.css",
     "watch": "run-p watch:css watch:min images:watch",
     "dev": "npm run watch",
     "start": "npm run watch"

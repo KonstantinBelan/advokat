@@ -12,22 +12,54 @@ if (!defined('ABSPATH')) {
 /**
  * Configure roles:
  * - Administrator (полные права)
+ * - Адвокат (ответы на вопросы, управление своим профилем)
  * - Автор (публикация/изменение только своего контента)
- * - Адвокат (пока без прав)
- * Удаляем все остальные роли (editor, contributor, subscriber).
+ * - Пользователь / Subscriber (авторизованный клиент, может задавать вопросы)
+ * Удаляем только editor и contributor.
  */
 function belan_configure_user_roles() {
-    // 1. Remove unwanted roles
+    // 1. Remove unnecessary legacy roles
     remove_role('editor');
     remove_role('contributor');
-    remove_role('subscriber');
 
     global $wp_roles;
     if (isset($wp_roles->roles['administrator'])) {
         $wp_roles->roles['administrator']['name'] = 'Администратор';
     }
 
-    // 2. Ensure Author role has ONLY own content capabilities
+    // 2. Lawyer (Адвокат) role
+    $advokat_caps = [
+        'read'         => true,
+        'upload_files' => true,
+    ];
+    $advokat_role = get_role('advokat');
+    if (!$advokat_role) {
+        add_role('advokat', 'Адвокат', $advokat_caps);
+    } else {
+        $advokat_role->add_cap('read');
+        $advokat_role->add_cap('upload_files');
+        if (isset($wp_roles->roles['advokat'])) {
+            $wp_roles->roles['advokat']['name'] = 'Адвокат';
+        }
+    }
+
+    // 3. Regular Client / Subscriber (Пользователь) role
+    $subscriber_caps = [
+        'read'         => true,
+        'upload_files' => true,
+    ];
+    $subscriber_role = get_role('subscriber');
+    if (!$subscriber_role) {
+        add_role('subscriber', 'Пользователь', $subscriber_caps);
+    } else {
+        $subscriber_role->add_cap('read');
+        $subscriber_role->add_cap('upload_files');
+        if (isset($wp_roles->roles['subscriber'])) {
+            $wp_roles->roles['subscriber']['name'] = 'Пользователь';
+        }
+    }
+
+    // 4. Ensure Author role has ONLY own content capabilities
     $author_caps = [
         'read'                   => true,
         'upload_files'           => true,
@@ -42,30 +74,22 @@ function belan_configure_user_roles() {
     if (!$author_role) {
         add_role('author', 'Автор', $author_caps);
     } else {
-        global $wp_roles;
         if (isset($wp_roles->roles['author'])) {
             $wp_roles->roles['author']['name'] = 'Автор';
-        }
-    }
-
-    // 3. Ensure Lawyer (Адвокат) role exists with no rights for now
-    $advokat_role = get_role('advokat');
-    if (!$advokat_role) {
-        add_role('advokat', 'Адвокат', []);
-    } else {
-        global $wp_roles;
-        if (isset($wp_roles->roles['advokat'])) {
-            $wp_roles->roles['advokat']['name'] = 'Адвокат';
         }
     }
 }
 add_action('init', 'belan_configure_user_roles', 1);
 
 /**
- * Filter editable roles in WordPress admin so only allowed roles are selectable
+ * Filter editable roles in WordPress admin so Administrator can select:
+ * - Администратор
+ * - Адвокат
+ * - Автор
+ * - Пользователь
  */
 function belan_filter_editable_roles($roles) {
-    $allowed = ['administrator', 'author', 'advokat'];
+    $allowed = ['administrator', 'advokat', 'author', 'subscriber'];
     foreach ($roles as $role_key => $role_data) {
         if (!in_array($role_key, $allowed, true)) {
             unset($roles[$role_key]);
@@ -73,6 +97,12 @@ function belan_filter_editable_roles($roles) {
     }
     if (isset($roles['administrator'])) {
         $roles['administrator']['name'] = 'Администратор';
+    }
+    if (isset($roles['advokat'])) {
+        $roles['advokat']['name'] = 'Адвокат';
+    }
+    if (isset($roles['subscriber'])) {
+        $roles['subscriber']['name'] = 'Пользователь';
     }
     return $roles;
 }
@@ -85,6 +115,12 @@ add_filter('gettext', function ($translation, $text, $domain) {
     }
     if ($text === 'Author') {
         return 'Автор';
+    }
+    if ($text === 'Subscriber') {
+        return 'Пользователь';
+    }
+    if ($text === 'advokat') {
+        return 'Адвокат';
     }
     return $translation;
 }, 10, 3);
@@ -100,13 +136,28 @@ add_action('admin_menu', function () {
         remove_menu_page('edit.php?post_type=cases');
         remove_menu_page('edit.php?post_type=review');
         remove_menu_page('edit.php?post_type=consultation');
+        remove_menu_page('edit.php?post_type=consultation_answer');
         remove_menu_page('tools.php');
         remove_menu_page('edit-comments.php');
     }
 }, 999);
 
 /**
- * Block direct URL access to restricted post types and tools for authors
+ * Redirect regular clients (subscribers) away from wp-admin to the website
+ */
+add_action('admin_init', function () {
+    if (defined('DOING_AJAX') && DOING_AJAX) {
+        return;
+    }
+    $user = wp_get_current_user();
+    if ($user && in_array('subscriber', (array) $user->roles, true) && !current_user_can('edit_posts')) {
+        wp_safe_redirect(home_url('/consultation/'));
+        exit;
+    }
+});
+
+/**
+ * Block direct URL access to restricted post types and tools for non-admins
  */
 add_action('load-tools.php', function () {
     if (!current_user_can('manage_options')) {
@@ -117,7 +168,7 @@ add_action('load-tools.php', function () {
 add_action('load-edit.php', function () {
     if (!current_user_can('manage_options')) {
         $screen = get_current_screen();
-        if ($screen && in_array($screen->post_type, ['service', 'cases', 'review', 'consultation'], true)) {
+        if ($screen && in_array($screen->post_type, ['service', 'cases', 'review', 'consultation', 'consultation_answer'], true)) {
             wp_die(__('Извините, вам не разрешено просматривать эту страницу.'), 403);
         }
     }
@@ -126,7 +177,7 @@ add_action('load-edit.php', function () {
 add_action('load-post-new.php', function () {
     if (!current_user_can('manage_options')) {
         $screen = get_current_screen();
-        if ($screen && in_array($screen->post_type, ['service', 'cases', 'review', 'consultation'], true)) {
+        if ($screen && in_array($screen->post_type, ['service', 'cases', 'review', 'consultation', 'consultation_answer'], true)) {
             wp_die(__('Извините, вам не разрешено просматривать эту страницу.'), 403);
         }
     }

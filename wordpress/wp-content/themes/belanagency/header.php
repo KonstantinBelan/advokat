@@ -153,7 +153,7 @@ $phone_tel = belan_option('site_phone_tel', belan_phone_clean($phone));
             </nav>
             <div class="header-contacts">
                 <a class="header-contacts__phone" href="tel:<?php echo esc_attr($phone_tel); ?>"><?php echo esc_html($phone); ?></a>
-                <a class="btn btn--small btn--yellow header-contacts__callback" href="<?php echo esc_url(home_url('/consultation/')); ?>">Задать вопрос онлайн</a>
+                <a class="btn btn--small btn--yellow header-contacts__callback" href="<?php echo esc_url(home_url('/consultation/#ask-question')); ?>">Задать вопрос онлайн</a>
             </div>
             <div class="header-mobile-actions">
                 <a class="header-mobile-phone" href="tel:<?php echo esc_attr($phone_tel); ?>" aria-label="Позвонить">

@@ -1,7 +1,7 @@
 <?php
 /**
  * Taxonomy Consultation Category Template
- * Matches consultation-category.html - Strictly from DB
+ * Comprehensive Legal Q&A Platform: Category Page
  *
  * @package BelanAgency
  */
@@ -19,14 +19,14 @@ $current_term = get_queried_object();
                     <ul class="breadcrumbs__list">
                         <li><a href="<?php echo esc_url(home_url('/')); ?>" class="breadcrumbs__link">Главная</a></li>
                         <li class="breadcrumbs__separator">/</li>
-                        <li><a href="<?php echo esc_url(home_url('/consultation/')); ?>" class="breadcrumbs__link">Консультации</a></li>
+                        <li><a href="<?php echo esc_url(home_url('/consultation/')); ?>" class="breadcrumbs__link">Вопросы адвокату</a></li>
                         <li class="breadcrumbs__separator">/</li>
                         <li class="breadcrumbs__current" aria-current="page"><?php echo esc_html($current_term->name); ?></li>
                     </ul>
                 </nav>
                 <h1 class="hero__title"><?php echo esc_html(mb_strtoupper($current_term->name)); ?> — ВОПРОСЫ И ОТВЕТЫ</h1>
                 <p class="hero__description">
-                    <?php echo esc_html($current_term->description ?: 'Ответы адвоката по теме: ' . $current_term->name . '. Вы можете задать свой вопрос или ознакомиться с опубликованными решениями.'); ?>
+                    <?php echo esc_html($current_term->description ?: 'Ответы практикующих адвокатов по отрасли: ' . $current_term->name . '. Вы можете задать свой вопрос или изучить опубликованные решения правовых ситуаций.'); ?>
                 </p>
                 <div class="hero__actions">
                     <a href="#ask-question" class="btn btn--primary btn--red btn--arrow">Задать вопрос в эту рубрику</a>
@@ -37,77 +37,73 @@ $current_term = get_queried_object();
 </section>
 
 <!-- Main Consultation Section -->
-<section class="section consultation">
+<section class="section consultation consultation--platform">
     <div class="container">
         <div class="consultation__layout">
             <div class="consultation__main">
+                <div class="consultation__main qa-questions-feed">
+                    <?php
+                    if (have_posts()) :
+                        while (have_posts()) : the_post();
+                            belan_render_consultation_card(get_the_ID());
+                        endwhile;
+                    else : ?>
+                        <div class="qa-empty-feed-card">
+                            <h3>В этой рубрике пока нет опубликованных вопросов</h3>
+                            <p>Вы можете задать первый вопрос по теме «<?php echo esc_html($current_term->name); ?>» с помощью формы ниже.</p>
+                            <a href="#ask-question" class="btn btn--primary btn--yellow">
+                                Задать вопрос адвокату
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+
                 <?php
-                if (have_posts()) :
-                    $idx = 0;
-                    while (have_posts()) : the_post();
-                        $idx++;
-                        $author = belan_field('consultation_author', get_the_ID(), 'Пользователь');
-                        $date   = belan_field('consultation_date', get_the_ID(), get_the_date('d.m.Y'));
-                        $question = belan_field('consultation_question', get_the_ID(), get_the_excerpt());
-                        ?>
-                        <article class="consultation-card">
-                            <div class="consultation-card__header">
-                                <div class="consultation-card__meta">
-                                    <span class="consultation-card__author"><?php echo esc_html($author); ?></span>
-                                    <span class="consultation-card__sep">/</span>
-                                    <span class="consultation-card__num">Вопрос № <?php echo get_the_ID(); ?></span>
-                                    <span class="consultation-card__sep">/</span>
-                                    <span class="consultation-card__date"><?php echo esc_html($date); ?></span>
-                                </div>
-                                <span class="consultation-card__badge"><?php echo esc_html($current_term->name); ?></span>
-                            </div>
-                            <h3 class="consultation-card__title">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                            </h3>
-                            <p class="consultation-card__text">
-                                <?php echo esc_html($question); ?>
-                            </p>
-                            <div class="consultation-card__footer">
-                                <div class="consultation-card__responder">
-                                    <span>Отвечает</span>
-                                    <div class="consultation-card__avatar">
-                                        <img src="<?php echo esc_url(belan_asset('img/about.webp')); ?>" alt="Ежов Антон">
-                                    </div>
-                                    <strong>Ежов Антон</strong>
-                                </div>
-                                <div class="consultation-card__views">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
-                                    <span><?php echo (18 + $idx * 4); ?></span>
-                                </div>
-                            </div>
-                        </article>
-                    <?php endwhile;
-                else : ?>
-                    <p class="empty-message" style="padding: 40px 0; text-align: center; color: #777; font-size: 18px;">
-                        В данной рубрике пока нет опубликованных вопросов. Вы можете задать первый вопрос!
-                    </p>
+                global $wp_query;
+                if ($wp_query->max_num_pages > 1) : ?>
+                    <div class="consultation__pagination">
+                        <button type="button" class="btn btn--width btn--outline-more js-load-more"
+                            data-post-type="consultation"
+                            data-category="<?php echo esc_attr($current_term->term_id); ?>"
+                            data-page="1"
+                            data-max-pages="<?php echo esc_attr($wp_query->max_num_pages); ?>"
+                            data-container=".consultation__main .qa-questions-feed">
+                            Показать еще вопросы <span class="btn--outline-more__arrow">▼</span>
+                        </button>
+                    </div>
                 <?php endif; ?>
             </div>
 
-            <!-- Sidebar -->
+            <!-- Right: Sidebar -->
             <aside class="consultation__sidebar">
-                <div class="consultation-categories">
-                    <h3 class="consultation-categories__title">Категории вопросов:</h3>
-                    <ul class="consultation-categories__list">
+                <div class="consultation-sidebar-cta">
+                    <h3 class="consultation-sidebar-cta__title">Вопрос по теме «<?php echo esc_html($current_term->name); ?>»?</h3>
+                    <p class="consultation-sidebar-cta__text">
+                        Оставьте обращение прямо сейчас — адвокат проанализирует вашу ситуацию и подготовит правовое решение.
+                    </p>
+                    <a href="#ask-question" class="btn btn--primary btn--yellow btn--width btn--arrow">
+                        Задать свой вопрос
+                    </a>
+                </div>
+
+                <!-- Categories Widget -->
+                <div class="article-sidebar__widget qa-categories-widget">
+                    <h3 class="article-sidebar__widget-title">Все рубрики вопросов:</h3>
+                    <ul class="article-sidebar__widget-list qa-cat-list">
                         <?php
-                        $sidebar_terms = get_terms([
+                        $all_cats = get_terms([
                             'taxonomy'   => 'consultation_category',
                             'hide_empty' => false,
                         ]);
-                        if (!empty($sidebar_terms) && !is_wp_error($sidebar_terms)) :
-                            foreach ($sidebar_terms as $term) :
-                                $active = ($term->term_id === $current_term->term_id) ? ' style="font-weight:700; color:#ce494c;"' : '';
+                        if (!empty($all_cats) && !is_wp_error($all_cats)) :
+                            foreach ($all_cats as $cat) :
+                                $is_active = ($cat->term_id === $current_term->term_id);
                                 ?>
-                                <li class="consultation-categories__item">
-                                    <a href="<?php echo esc_url(get_term_link($term)); ?>" class="consultation-categories__link"<?php echo $active; ?>><?php echo esc_html($term->name); ?></a>
+                                <li class="article-sidebar__widget-item <?php echo $is_active ? 'qa-cat-item--active' : ''; ?>">
+                                    <a href="<?php echo esc_url(get_term_link($cat)); ?>" class="article-sidebar__widget-link qa-cat-link">
+                                        <span><?php echo esc_html($cat->name); ?></span>
+                                        <span class="qa-cat-count"><?php echo esc_html($cat->count); ?></span>
+                                    </a>
                                 </li>
                             <?php endforeach;
                         endif; ?>
@@ -118,6 +114,10 @@ $current_term = get_queried_object();
     </div>
 </section>
 
+<!-- Section: Форма «Задать вопрос адвокату» -->
 <?php
 get_template_part('template-parts/section', 'consultation-form');
+?>
+
+<?php
 get_footer();

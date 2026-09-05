@@ -511,4 +511,235 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // ==========================================
+    // Q&A Platform: Ask Question & Lawyer Answers
+    // ==========================================
+
+    // AJAX Ask Question Form Handler
+    document.querySelectorAll('.belan-qa-ask-form').forEach((form) => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const feedback = form.querySelector('.form-feedback');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn ? submitBtn.innerText : '';
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Отправка вопроса...';
+            }
+
+            const formData = new FormData(form);
+            formData.append('action', 'belan_ask_question');
+            if (typeof belan_ajax !== 'undefined') {
+                formData.append('nonce', belan_ajax.nonce);
+            }
+
+            const ajaxUrl = (typeof belan_ajax !== 'undefined') ? belan_ajax.url : '/wp-admin/admin-ajax.php';
+
+            fetch(ajaxUrl, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((r) => r.json())
+                .then((res) => {
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                        if (res.success) {
+                            feedback.style.background = '#e8f5e9';
+                            feedback.style.border = '1px solid #c8e6c9';
+                            feedback.style.color = '#2e7d32';
+                            feedback.innerHTML = res.data.message || 'Ваш вопрос успешно отправлен на модерацию!';
+                            form.reset();
+                            if (res.data && res.data.new_captcha) {
+                                const textEl = form.querySelector('.qa-antispam-text strong');
+                                const tokenInput = form.querySelector('input[name="qa_antispam_token"]');
+                                const ansInput = form.querySelector('input[name="qa_antispam_answer"]');
+                                if (textEl) textEl.textContent = res.data.new_captcha.text;
+                                if (tokenInput) tokenInput.value = res.data.new_captcha.token;
+                                if (ansInput) ansInput.value = '';
+                            }
+                        } else {
+                            feedback.style.background = '#ffebee';
+                            feedback.style.border = '1px solid #ffcdd2';
+                            feedback.style.color = '#c62828';
+                            feedback.innerText = res.data.message || 'Не удалось отправить вопрос.';
+                            if (res.data && res.data.new_captcha) {
+                                const textEl = form.querySelector('.qa-antispam-text strong');
+                                const tokenInput = form.querySelector('input[name="qa_antispam_token"]');
+                                const ansInput = form.querySelector('input[name="qa_antispam_answer"]');
+                                if (textEl) textEl.textContent = res.data.new_captcha.text;
+                                if (tokenInput) tokenInput.value = res.data.new_captcha.token;
+                                if (ansInput) ansInput.value = '';
+                            }
+                        }
+                    }
+                })
+                .catch(() => {
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                        feedback.style.background = '#ffebee';
+                        feedback.style.border = '1px solid #ffcdd2';
+                        feedback.style.color = '#c62828';
+                        feedback.innerText = 'Произошла ошибка при отправке. Пожалуйста, проверьте соединение.';
+                    }
+                })
+                .finally(() => {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = originalText;
+                    }
+                });
+        });
+    });
+
+    // AJAX Lawyer Answer Form Handler
+    document.querySelectorAll('.belan-lawyer-answer-form').forEach((form) => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const feedback = form.querySelector('.form-feedback');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn ? submitBtn.innerText : '';
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Отправка на проверку...';
+            }
+
+            const formData = new FormData(form);
+            formData.append('action', 'belan_submit_answer');
+            if (typeof belan_ajax !== 'undefined') {
+                formData.append('nonce', belan_ajax.nonce);
+            }
+
+            const ajaxUrl = (typeof belan_ajax !== 'undefined') ? belan_ajax.url : '/wp-admin/admin-ajax.php';
+
+            fetch(ajaxUrl, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((r) => r.json())
+                .then((res) => {
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                        if (res.success) {
+                            feedback.style.color = '#2e7d32';
+                            feedback.innerText = res.data.message || 'Ответ успешно отправлен на модерацию!';
+                            form.reset();
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        } else {
+                            feedback.style.color = '#c62828';
+                            feedback.innerText = res.data.message || 'Ошибка отправки ответа.';
+                        }
+                    }
+                })
+                .catch(() => {
+                    if (feedback) {
+                        feedback.style.display = 'block';
+                        feedback.style.color = '#c62828';
+                        feedback.innerText = 'Сетевая ошибка.';
+                    }
+                })
+                .finally(() => {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = originalText;
+                    }
+                });
+        });
+    });
+
+    // AJAX 1-Click Approve Answer (Admin)
+    document.querySelectorAll('.belan-approve-answer-btn').forEach((btn) => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const answerId = this.getAttribute('data-answer-id');
+            if (!answerId) return;
+
+            if (!confirm('Одобрить и опубликовать этот ответ адвоката? Автору вопроса будет отправлено письмо.')) {
+                return;
+            }
+
+            this.disabled = true;
+            this.innerText = 'Одобрение...';
+
+            const formData = new FormData();
+            formData.append('action', 'belan_approve_answer');
+            formData.append('answer_id', answerId);
+            if (typeof belan_ajax !== 'undefined') {
+                formData.append('nonce', belan_ajax.nonce);
+            }
+
+            const ajaxUrl = (typeof belan_ajax !== 'undefined') ? belan_ajax.url : '/wp-admin/admin-ajax.php';
+
+            fetch(ajaxUrl, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((r) => r.json())
+                .then((res) => {
+                    if (res.success) {
+                        alert(res.data.message || 'Ответ опубликован!');
+                        window.location.reload();
+                    } else {
+                        alert(res.data.message || 'Ошибка одобрения ответа.');
+                        this.disabled = false;
+                        this.innerText = '✓ Одобрить и опубликовать';
+                    }
+                })
+                .catch(() => {
+                    alert('Сетевая ошибка.');
+                    this.disabled = false;
+                    this.innerText = '✓ Одобрить и опубликовать';
+                });
+        });
+    });
+
+    // AJAX 1-Click Approve Question (Admin)
+    document.querySelectorAll('.belan-approve-question-btn').forEach((btn) => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const questionId = this.getAttribute('data-question-id');
+            if (!questionId) return;
+
+            if (!confirm('Одобрить и опубликовать этот вопрос на сайте? Автору вопроса будет отправлено уведомление на e-mail.')) {
+                return;
+            }
+
+            this.disabled = true;
+            this.innerText = 'Одобрение...';
+
+            const formData = new FormData();
+            formData.append('action', 'belan_approve_question');
+            formData.append('question_id', questionId);
+            if (typeof belan_ajax !== 'undefined') {
+                formData.append('nonce', belan_ajax.nonce);
+            }
+
+            const ajaxUrl = (typeof belan_ajax !== 'undefined') ? belan_ajax.url : '/wp-admin/admin-ajax.php';
+
+            fetch(ajaxUrl, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((r) => r.json())
+                .then((res) => {
+                    if (res.success) {
+                        alert(res.data.message || 'Вопрос одобрен и опубликован!');
+                        window.location.reload();
+                    } else {
+                        alert(res.data.message || 'Ошибка при одобрении вопроса.');
+                        this.disabled = false;
+                        this.innerText = 'Одобрить и опубликовать вопрос';
+                    }
+                })
+                .catch(() => {
+                    alert('Сетевая ошибка при отправке запроса.');
+                    this.disabled = false;
+                    this.innerText = 'Одобрить и опубликовать вопрос';
+                });
+        });
+    });
 });

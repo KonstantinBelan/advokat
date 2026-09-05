@@ -877,6 +877,7 @@
     strong {
       color: $color-primary;
       font-weight: 600;
+      max-width: rem(200);
     }
 
     .consultation-card__avatar {
