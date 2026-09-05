@@ -224,6 +224,7 @@ function belan_get_lawyer_profile($user_id) {
         'verified'       => get_user_meta($user_id, 'advokat_verified', true) === '1' || $user_id === 1,
         'is_advokat'     => $is_advokat,
         'answers_count'  => $answers_count,
+        'is_disabled'    => (get_user_meta($user_id, 'belan_expert_disabled', true) === '1'),
     ];
 }
 
@@ -864,6 +865,10 @@ function belan_ajax_submit_answer() {
         wp_send_json_error(['message' => 'Отвечать на вопросы могут только зарегистрированные адвокаты.']);
     }
 
+    if (get_user_meta($current_user->ID, 'belan_expert_disabled', true) === '1') {
+        wp_send_json_error(['message' => 'Ваш аккаунт эксперта временно отключен администратором сайта. Публикация ответов не разрешена.']);
+    }
+
     $question_id = (int) ($_POST['question_id'] ?? 0);
     $answer_text = trim($_POST['answer_text'] ?? '');
 
@@ -1498,8 +1503,8 @@ function belan_render_qa_dashboard_widget() {
     <div class="qa-dash-footer">
         <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation')); ?>">Все вопросы</a>
         <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation_answer')); ?>">Все ответы адвокатов</a>
-        <a href="<?php echo esc_url(admin_url('users.php?role=advokat')); ?>">Список адвокатов</a>
-        <a href="<?php echo esc_url(admin_url('user-new.php')); ?>">+ Зарегистрировать адвоката</a>
+        <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation&page=belan-experts')); ?>">⚖️ Эксперты и адвокаты</a>
+        <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation&page=belan-experts&view=new')); ?>">+ Добавить эксперта</a>
         <a href="<?php echo esc_url(home_url('/consultation/')); ?>" target="_blank">Лента на сайте &nearr;</a>
     </div>
     <?php

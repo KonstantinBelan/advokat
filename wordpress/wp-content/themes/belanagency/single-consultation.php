@@ -296,21 +296,33 @@ $approved_count = belan_get_question_answers_count($question_id);
                 <!-- Lawyer Answer Form / Call to Action Box -->
                 <div class="qa-lawyer-response-box" id="lawyer-response-form">
                     <?php if ($is_advokat) :
-                        $cur_lawyer = belan_get_lawyer_profile($current_user_id);
-                        ?>
-                        <!-- Logged-in Lawyer Answer Form -->
-                        <div class="qa-lawyer-form-card">
-                            <div class="qa-lawyer-form-card__header">
-                                <div class="qa-lawyer-form-card__lawyer-avatar">
-                                    <img src="<?php echo esc_url($cur_lawyer['avatar']); ?>" alt="<?php echo esc_attr($cur_lawyer['name']); ?>">
-                                </div>
-                                <div>
-                                    <h3 class="qa-lawyer-form-card__title">Предоставить ответ на вопрос</h3>
-                                    <p class="qa-lawyer-form-card__subtitle">
-                                        Вы отвечаете как: <strong><?php echo esc_html($cur_lawyer['name']); ?></strong> (<?php echo esc_html($cur_lawyer['reg_number']); ?>)
-                                    </p>
+                        $cur_lawyer  = belan_get_lawyer_profile($current_user_id);
+                        $is_disabled = !empty($cur_lawyer['is_disabled']);
+                        if ($is_disabled) : ?>
+                            <div class="qa-pending-banner" style="background:#FFF3F3; border:1px solid #FFCDD2; color:#C62828; border-radius:12px; padding:18px 24px;">
+                                <div class="qa-pending-banner__text" style="font-size:15px; line-height:1.5;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-4px; margin-right:8px;">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <line x1="12" y1="8" x2="12" y2="12"/>
+                                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                    <strong>Ваш профиль эксперта отключен администратором сайта.</strong> Публикация ответов на консультации временно приостановлена.
                                 </div>
                             </div>
+                        <?php else : ?>
+                            <!-- Logged-in Lawyer Answer Form -->
+                            <div class="qa-lawyer-form-card">
+                                <div class="qa-lawyer-form-card__header">
+                                    <div class="qa-lawyer-form-card__lawyer-avatar">
+                                        <img src="<?php echo esc_url($cur_lawyer['avatar']); ?>" alt="<?php echo esc_attr($cur_lawyer['name']); ?>">
+                                    </div>
+                                    <div>
+                                        <h3 class="qa-lawyer-form-card__title">Предоставить ответ на вопрос</h3>
+                                        <p class="qa-lawyer-form-card__subtitle">
+                                            Вы отвечаете как: <strong><?php echo esc_html($cur_lawyer['name']); ?></strong> (<?php echo esc_html($cur_lawyer['reg_number']); ?>)
+                                        </p>
+                                    </div>
+                                </div>
 
                             <form action="#" method="POST" class="qa-lawyer-answer-form belan-lawyer-answer-form" data-question-id="<?php echo esc_attr($question_id); ?>">
                                 <input type="hidden" name="question_id" value="<?php echo esc_attr($question_id); ?>">
@@ -337,6 +349,7 @@ $approved_count = belan_get_question_answers_count($question_id);
                                 <div class="form-feedback" style="display:none; margin-top:12px; font-size:15px;"></div>
                             </form>
                         </div>
+                        <?php endif; ?>
 
                     <?php elseif (!$is_logged_in) : ?>
                         <!-- Guest Call to Action: Login as Lawyer -->

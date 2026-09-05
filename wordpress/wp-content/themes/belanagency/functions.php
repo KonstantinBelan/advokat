@@ -19,6 +19,7 @@ require_once get_template_directory() . '/inc/roles.php';
 require_once get_template_directory() . '/inc/ajax-load-more.php';
 require_once get_template_directory() . '/inc/article-content.php';
 require_once get_template_directory() . '/inc/qa-platform.php';
+require_once get_template_directory() . '/inc/admin-experts.php';
 
 /**
  * Theme Setup
