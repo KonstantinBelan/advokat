@@ -131,7 +131,10 @@ $consult_query = new WP_Query($query_args);
                         if (!empty($sidebar_terms) && !is_wp_error($sidebar_terms)) :
                             foreach ($sidebar_terms as $term) : ?>
                                 <li class="consultation-categories__item">
-                                    <a href="<?php echo esc_url(get_term_link($term)); ?>" class="consultation-categories__link"><?php echo esc_html($term->name); ?></a>
+                                    <a href="<?php echo esc_url(get_term_link($term)); ?>" class="consultation-categories__link">
+                                        <span class="qa-cat-name"><?php echo esc_html($term->name); ?></span>
+                                        <span class="qa-cat-count"><?php echo esc_html($term->count); ?></span>
+                                    </a>
                                 </li>
                             <?php endforeach;
                         else : ?>

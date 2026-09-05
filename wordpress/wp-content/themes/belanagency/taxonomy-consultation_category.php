@@ -87,26 +87,26 @@ $current_term = get_queried_object();
                 </div>
 
                 <!-- Categories Widget -->
-                <div class="article-sidebar__widget qa-categories-widget">
-                    <h3 class="article-sidebar__widget-title">Все рубрики вопросов:</h3>
-                    <ul class="article-sidebar__widget-list qa-cat-list">
+                <div class="consultation-categories">
+                    <h3 class="consultation-categories__title">Категории вопросов:</h3>
+                    <ul class="consultation-categories__list">
                         <?php
-                        $all_cats = get_terms([
+                        $sidebar_terms = get_terms([
                             'taxonomy'   => 'consultation_category',
                             'hide_empty' => false,
                         ]);
-                        if (!empty($all_cats) && !is_wp_error($all_cats)) :
-                            foreach ($all_cats as $cat) :
-                                $is_active = ($cat->term_id === $current_term->term_id);
-                                ?>
-                                <li class="article-sidebar__widget-item <?php echo $is_active ? 'qa-cat-item--active' : ''; ?>">
-                                    <a href="<?php echo esc_url(get_term_link($cat)); ?>" class="article-sidebar__widget-link qa-cat-link">
-                                        <span><?php echo esc_html($cat->name); ?></span>
-                                        <span class="qa-cat-count"><?php echo esc_html($cat->count); ?></span>
+                        if (!empty($sidebar_terms) && !is_wp_error($sidebar_terms)) :
+                            foreach ($sidebar_terms as $term) : ?>
+                                <li class="consultation-categories__item">
+                                    <a href="<?php echo esc_url(get_term_link($term)); ?>" class="consultation-categories__link">
+                                        <span class="qa-cat-name"><?php echo esc_html($term->name); ?></span>
+                                        <span class="qa-cat-count"><?php echo esc_html($term->count); ?></span>
                                     </a>
                                 </li>
                             <?php endforeach;
-                        endif; ?>
+                        else : ?>
+                            <li class="consultation-categories__item">Категорий пока нет</li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </aside>
@@ -116,7 +116,9 @@ $current_term = get_queried_object();
 
 <!-- Section: Форма «Задать вопрос адвокату» -->
 <?php
-get_template_part('template-parts/section', 'consultation-form');
+get_template_part('template-parts/section', 'consultation-form', [
+    'default_category' => ($current_term instanceof WP_Term) ? $current_term->name : '',
+]);
 ?>
 
 <?php

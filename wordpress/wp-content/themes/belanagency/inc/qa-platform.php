@@ -1038,21 +1038,32 @@ function belan_render_consultation_card($post_id = 0) {
     $answers_count = belan_get_question_answers_count($post_id);
     $has_answers = ($answers_count > 0);
 
-    // Get the first answer lawyer info if answered
-    $lawyer = null;
+    // Get unique lawyers who answered this question
+    $lawyers = [];
     if ($has_answers) {
-        $ans = get_posts([
+        $answers_posts = get_posts([
             'post_type'      => 'consultation_answer',
             'post_parent'    => $post_id,
             'post_status'    => 'publish',
-            'posts_per_page' => 1,
+            'posts_per_page' => -1,
             'orderby'        => 'date',
             'order'          => 'ASC',
         ]);
-        if (!empty($ans)) {
-            $lawyer = belan_get_lawyer_profile($ans[0]->post_author);
+        if (!empty($answers_posts)) {
+            $seen_authors = [];
+            foreach ($answers_posts as $ans_post) {
+                $author_id = (int) $ans_post->post_author;
+                if (!in_array($author_id, $seen_authors, true)) {
+                    $seen_authors[] = $author_id;
+                    $profile = belan_get_lawyer_profile($author_id);
+                    $profile['answer_id'] = $ans_post->ID;
+                    $profile['answer_url'] = get_permalink($post_id) . '#answer-' . $ans_post->ID;
+                    $lawyers[] = $profile;
+                }
+            }
         }
     }
+    $lawyer_count = count($lawyers);
     ?>
     <article class="consultation-card">
         <div class="consultation-card__header">
@@ -1073,12 +1084,26 @@ function belan_render_consultation_card($post_id = 0) {
         </p>
         <div class="consultation-card__footer">
             <div class="consultation-card__responder">
-                <?php if ($has_answers && $lawyer) : ?>
+                <?php if ($lawyer_count === 1) : ?>
                     <span>Отвечает</span>
-                    <div class="consultation-card__avatar">
-                        <img src="<?php echo esc_url($lawyer['avatar']); ?>" alt="<?php echo esc_attr($lawyer['name']); ?>">
+                    <a href="<?php echo esc_url($lawyers[0]['answer_url']); ?>" class="consultation-card__responder-link" title="<?php echo esc_attr($lawyers[0]['name']); ?>">
+                        <div class="consultation-card__avatar">
+                            <img src="<?php echo esc_url($lawyers[0]['avatar']); ?>" alt="<?php echo esc_attr($lawyers[0]['name']); ?>">
+                        </div>
+                        <strong><?php echo esc_html($lawyers[0]['name']); ?></strong>
+                    </a>
+                <?php elseif ($lawyer_count > 1) : ?>
+                    <span>Отвечают</span>
+                    <div class="consultation-card__avatars">
+                        <?php foreach ($lawyers as $l) : ?>
+                            <a href="<?php echo esc_url($l['answer_url']); ?>" class="consultation-card__avatar-wrap" title="<?php echo esc_attr($l['name']); ?>">
+                                <div class="consultation-card__avatar">
+                                    <img src="<?php echo esc_url($l['avatar']); ?>" alt="<?php echo esc_attr($l['name']); ?>">
+                                </div>
+                                <span class="consultation-card__tooltip"><?php echo esc_html($l['name']); ?></span>
+                            </a>
+                        <?php endforeach; ?>
                     </div>
-                    <strong><?php echo esc_html($lawyer['name']); ?></strong>
                 <?php else : ?>
                     <span>Нет ответа</span>
                 <?php endif; ?>

@@ -742,4 +742,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         });
     });
+
+    // Smooth scroll to target expert answer if URL has #answer-{id} hash
+    function scrollToTargetAnswer() {
+        if (window.location.hash && window.location.hash.startsWith('#answer-')) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                setTimeout(() => {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 150);
+            }
+        }
+    }
+
+    if (window.location.hash && window.location.hash.startsWith('#answer-')) {
+        if (document.readyState === 'complete') {
+            scrollToTargetAnswer();
+        } else {
+            window.addEventListener('load', scrollToTargetAnswer);
+        }
+    }
+
+    window.addEventListener('hashchange', () => {
+        if (window.location.hash && window.location.hash.startsWith('#answer-')) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+    });
 });

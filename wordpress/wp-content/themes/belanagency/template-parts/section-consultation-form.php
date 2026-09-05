@@ -15,6 +15,25 @@ $current_user = wp_get_current_user();
 
 $spam_q     = belan_qa_generate_captcha();
 $time_token = belan_qa_generate_time_token();
+
+// Determine default preselected category if inside a category
+$selected_category = '';
+
+if (!empty($args['default_category'])) {
+    $selected_category = $args['default_category'];
+} elseif (!empty($_GET['category'])) {
+    $selected_category = sanitize_text_field(wp_unslash($_GET['category']));
+} elseif (is_tax('consultation_category')) {
+    $current_term = get_queried_object();
+    if ($current_term instanceof WP_Term) {
+        $selected_category = $current_term->name;
+    }
+} elseif (is_singular('consultation')) {
+    $post_terms = get_the_terms(get_the_ID(), 'consultation_category');
+    if (!empty($post_terms) && !is_wp_error($post_terms)) {
+        $selected_category = $post_terms[0]->name;
+    }
+}
 ?>
 <!-- Ask Question Form Section -->
 <section class="section consultation-form-section" id="ask-question">
@@ -44,25 +63,36 @@ $time_token = belan_qa_generate_time_token();
 
                         <div class="consultation-form-section__select-wrapper">
                             <select name="question-category" class="consultation-form-section__select" required>
-                                <option value="" disabled selected>Выберите отрасль права</option>
+                                <option value="" disabled <?php echo empty($selected_category) ? 'selected' : ''; ?>>Выберите отрасль права</option>
                                 <?php
                                 $categories = get_terms([
                                     'taxonomy'   => 'consultation_category',
                                     'hide_empty' => false,
                                 ]);
                                 if (!empty($categories) && !is_wp_error($categories)) :
-                                    foreach ($categories as $cat) : ?>
-                                        <option value="<?php echo esc_attr($cat->name); ?>"><?php echo esc_html($cat->name); ?></option>
+                                    foreach ($categories as $cat) :
+                                        $is_selected = false;
+                                        if (!empty($selected_category)) {
+                                            if (
+                                                strcasecmp($selected_category, $cat->name) === 0 ||
+                                                strcasecmp($selected_category, $cat->slug) === 0 ||
+                                                (int)$selected_category === $cat->term_id
+                                            ) {
+                                                $is_selected = true;
+                                            }
+                                        }
+                                        ?>
+                                        <option value="<?php echo esc_attr($cat->name); ?>" <?php echo $is_selected ? 'selected' : ''; ?>><?php echo esc_html($cat->name); ?></option>
                                     <?php endforeach;
                                 else : ?>
-                                    <option value="Жилищные вопросы и ЖКХ">Жилищные вопросы и ЖКХ</option>
-                                    <option value="Семейное право, разводы и алименты">Семейное право, разводы и алименты</option>
-                                    <option value="Защита прав потребителей">Защита прав потребителей</option>
-                                    <option value="Автоюристы и ДТП">Автоюристы и ДТП</option>
-                                    <option value="Банкротство граждан и компаний">Банкротство граждан и компаний</option>
-                                    <option value="Трудовое право">Трудовое право</option>
-                                    <option value="Уголовное право и процесс">Уголовное право и процесс</option>
-                                    <option value="Другая категория">Другая категория</option>
+                                    <option value="Жилищные вопросы и ЖКХ" <?php echo ($selected_category === 'Жилищные вопросы и ЖКХ') ? 'selected' : ''; ?>>Жилищные вопросы и ЖКХ</option>
+                                    <option value="Семейное право, разводы и алименты" <?php echo ($selected_category === 'Семейное право, разводы и алименты') ? 'selected' : ''; ?>>Семейное право, разводы и алименты</option>
+                                    <option value="Защита прав потребителей" <?php echo ($selected_category === 'Защита прав потребителей') ? 'selected' : ''; ?>>Защита прав потребителей</option>
+                                    <option value="Автоюристы и ДТП" <?php echo ($selected_category === 'Автоюристы и ДТП') ? 'selected' : ''; ?>>Автоюристы и ДТП</option>
+                                    <option value="Банкротство граждан и компаний" <?php echo ($selected_category === 'Банкротство граждан и компаний') ? 'selected' : ''; ?>>Банкротство граждан и компаний</option>
+                                    <option value="Трудовое право" <?php echo ($selected_category === 'Трудовое право') ? 'selected' : ''; ?>>Трудовое право</option>
+                                    <option value="Уголовное право и процесс" <?php echo ($selected_category === 'Уголовное право и процесс') ? 'selected' : ''; ?>>Уголовное право и процесс</option>
+                                    <option value="Другая категория" <?php echo ($selected_category === 'Другая категория') ? 'selected' : ''; ?>>Другая категория</option>
                                 <?php endif; ?>
                             </select>
                         </div>
