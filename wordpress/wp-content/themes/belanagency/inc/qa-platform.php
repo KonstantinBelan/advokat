@@ -502,6 +502,7 @@ add_filter('manage_consultation_posts_columns', function($columns) {
         'question_category' => 'Рубрика',
         'question_status'   => 'Модерация',
         'answers_status'    => 'Ответы адвокатов',
+        'question_docs'     => 'Документы',
         'date'              => 'Дата',
         'question_actions'  => 'Действия',
     ];
@@ -549,6 +550,19 @@ add_action('manage_consultation_posts_custom_column', function($column, $post_id
             }
             break;
 
+        case 'question_docs':
+            $attachments = get_post_meta($post_id, 'consultation_attachments', true);
+            if (!empty($attachments) && is_array($attachments)) {
+                $count = count($attachments);
+                echo '<span style="display:inline-flex; align-items:center; gap:4px; font-weight:600; color:#1d2327;">';
+                echo '<span class="dashicons dashicons-paperclip" style="color:#2271b1; font-size:16px; width:16px; height:16px; line-height:16px;"></span> ';
+                echo esc_html($count) . ' ' . _n('документ', 'документа', $count, 'belanagency');
+                echo '</span>';
+            } else {
+                echo '<span style="color:#bbb;">—</span>';
+            }
+            break;
+
         case 'question_actions':
             if (current_user_can('manage_options')) {
                 $st = get_post_status($post_id);
@@ -591,6 +605,420 @@ add_action('wp_ajax_belan_admin_unpublish_question_get', function() {
     wp_safe_redirect(admin_url('edit.php?post_type=consultation'));
     exit;
 });
+
+/**
+ * 8. Meta Boxes & Document Management in WP Admin
+ */
+
+// 8.1 Enqueue media scripts for consultation edit screens
+add_action('admin_enqueue_scripts', function($hook) {
+    global $post_type, $pagenow;
+    if (in_array($pagenow, ['post.php', 'post-new.php'], true) && in_array($post_type, ['consultation', 'consultation_answer'], true)) {
+        wp_enqueue_media();
+    }
+});
+
+// 8.2 Register Meta Boxes for Questions (consultation) & Answers (consultation_answer)
+function belan_register_consultation_meta_boxes() {
+    // 1. Client Attached Documents
+    add_meta_box(
+        'belan_consultation_attachments_box',
+        'Прикрепленные документы клиента',
+        'belan_render_consultation_attachments_box',
+        'consultation',
+        'normal',
+        'high'
+    );
+
+    // 2. Lawyer Answers to this Question
+    add_meta_box(
+        'belan_consultation_answers_box',
+        'Ответы адвокатов к этому вопросу',
+        'belan_render_consultation_answers_box',
+        'consultation',
+        'normal',
+        'high'
+    );
+
+    // 3. Parent Question for Answer CPT
+    add_meta_box(
+        'belan_answer_parent_question_box',
+        'Исходный вопрос клиента',
+        'belan_render_answer_parent_question_box',
+        'consultation_answer',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'belan_register_consultation_meta_boxes');
+
+/**
+ * Helper to get attachment icon / thumbnail HTML for admin
+ */
+function belan_get_attachment_admin_thumb($att_id) {
+    if (wp_attachment_is_image($att_id)) {
+        $img = wp_get_attachment_image($att_id, [48, 48], true, [
+            'style' => 'width:48px; height:48px; object-fit:cover; border-radius:4px; border:1px solid #dcdcde; display:block;'
+        ]);
+        if ($img) return $img;
+    }
+
+    $mime = get_post_mime_type($att_id);
+    $dashicon = 'dashicons-media-default';
+    if (strpos($mime, 'pdf') !== false) {
+        $dashicon = 'dashicons-pdf';
+    } elseif (strpos($mime, 'word') !== false || strpos($mime, 'document') !== false || strpos($mime, 'text') !== false) {
+        $dashicon = 'dashicons-media-document';
+    } elseif (strpos($mime, 'sheet') !== false || strpos($mime, 'excel') !== false) {
+        $dashicon = 'dashicons-media-spreadsheet';
+    } elseif (strpos($mime, 'zip') !== false || strpos($mime, 'tar') !== false || strpos($mime, 'rar') !== false) {
+        $dashicon = 'dashicons-media-archive';
+    } elseif (strpos($mime, 'image') !== false) {
+        $dashicon = 'dashicons-format-image';
+    }
+
+    return '<span class="dashicons ' . esc_attr($dashicon) . '" style="display:flex; align-items:center; justify-content:center; width:48px; height:48px; font-size:28px; background:#f0f0f1; border-radius:4px; color:#50575e; border:1px solid #dcdcde;"></span>';
+}
+
+/**
+ * Render Attached Documents Meta Box in Question Edit Screen
+ */
+function belan_render_consultation_attachments_box($post) {
+    $attachments = get_post_meta($post->ID, 'consultation_attachments', true);
+    if (!is_array($attachments)) {
+        $attachments = !empty($attachments) ? [(int) $attachments] : [];
+    }
+    wp_nonce_field('belan_save_consultation_attachments', 'belan_consultation_attachments_nonce');
+    ?>
+    <div class="belan-attachments-meta-wrapper" style="font-family: inherit;">
+        <p class="description" style="margin:0 0 12px; font-size:13px; color:#50575e;">
+            Документы и файлы, загруженные клиентом при создании вопроса. Доступны для скачивания только администраторам и адвокатам.
+        </p>
+
+        <div id="belan-attachments-list" style="display:flex; flex-direction:column; gap:8px;">
+            <?php
+            $has_items = false;
+            foreach ($attachments as $att_id) :
+                $att_id = (int) $att_id;
+                $att_post = get_post($att_id);
+                if (!$att_post) continue;
+
+                $has_items = true;
+                $att_url   = wp_get_attachment_url($att_id);
+                $att_file  = get_attached_file($att_id);
+                $att_size  = ($att_file && file_exists($att_file)) ? size_format(filesize($att_file)) : '';
+                $att_mime  = get_post_mime_type($att_id);
+                $att_title = get_the_title($att_id) ?: basename($att_url);
+                $thumb_html = belan_get_attachment_admin_thumb($att_id);
+                ?>
+                <div class="belan-att-item" data-id="<?php echo esc_attr($att_id); ?>" style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; background:#fff; border:1px solid #c3c4c7; border-radius:6px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+                    <input type="hidden" name="consultation_attachments[]" value="<?php echo esc_attr($att_id); ?>">
+                    <div style="display:flex; align-items:center; gap:12px; min-width:0; flex-grow:1;">
+                        <div style="flex-shrink:0;">
+                            <?php echo $thumb_html; ?>
+                        </div>
+                        <div style="min-width:0; flex-grow:1;">
+                            <a href="<?php echo esc_url($att_url); ?>" target="_blank" style="font-weight:600; font-size:13px; color:#2271b1; text-decoration:none; display:inline-block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="<?php echo esc_attr($att_title); ?>">
+                                <?php echo esc_html($att_title); ?>
+                            </a>
+                            <div style="font-size:12px; color:#646970; margin-top:2px;">
+                                <?php if ($att_size) : ?><span><?php echo esc_html($att_size); ?></span> &bull; <?php endif; ?>
+                                <span><?php echo esc_html($att_mime); ?></span> &bull;
+                                <span>ID: <?php echo esc_html($att_id); ?></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
+                        <a href="<?php echo esc_url($att_url); ?>" target="_blank" download class="button button-secondary button-small" title="Скачать файл">
+                            <span class="dashicons dashicons-download" style="vertical-align:text-bottom; font-size:15px; width:15px; height:15px; line-height:15px;"></span> Скачать ↗
+                        </a>
+                        <button type="button" class="button button-link-delete button-small belan-remove-att-btn" style="color:#d63638; text-decoration:none; padding:0 6px;">
+                            <span class="dashicons dashicons-trash" style="vertical-align:text-bottom; font-size:15px; width:15px; height:15px; line-height:15px;"></span> Открепить
+                        </button>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div id="belan-attachments-empty" style="<?php echo $has_items ? 'display:none;' : ''; ?> padding:20px; background:#f6f7f7; border:1px dashed #c3c4c7; border-radius:6px; text-align:center; color:#646970;">
+            <span class="dashicons dashicons-media-default" style="font-size:32px; width:32px; height:32px; color:#a7aaad; margin-bottom:6px; display:inline-block;"></span>
+            <p style="margin:0; font-size:13px;">К данному вопросу клиент не прикрепил документы.</p>
+        </div>
+
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid #f0f0f1; display:flex; align-items:center; justify-content:space-between;">
+            <button type="button" id="belan-add-attachments-btn" class="button button-secondary">
+                <span class="dashicons dashicons-plus-alt2" style="vertical-align:text-bottom; font-size:16px; width:16px; height:16px; line-height:16px;"></span> Прикрепить документ из медиабиблиотеки
+            </button>
+            <span style="font-size:12px; color:#646970;">Не забудьте нажать «Обновить», чтобы сохранить изменения.</span>
+        </div>
+    </div>
+
+    <script>
+    jQuery(document).ready(function($) {
+        // Remove attachment item
+        $(document).on('click', '.belan-remove-att-btn', function(e) {
+            e.preventDefault();
+            $(this).closest('.belan-att-item').remove();
+            if ($('#belan-attachments-list .belan-att-item').length === 0) {
+                $('#belan-attachments-empty').show();
+            }
+        });
+
+        // Add attachment from media library
+        var file_frame;
+        $('#belan-add-attachments-btn').on('click', function(e) {
+            e.preventDefault();
+
+            if (file_frame) {
+                file_frame.open();
+                return;
+            }
+
+            file_frame = wp.media({
+                title: 'Прикрепить документы к вопросу',
+                button: { text: 'Прикрепить выбранные файлы' },
+                multiple: true
+            });
+
+            file_frame.on('select', function() {
+                var selection = file_frame.state().get('selection');
+                selection.each(function(attachment) {
+                    var att = attachment.toJSON();
+                    // Check if already in list
+                    if ($('#belan-attachments-list .belan-att-item[data-id="' + att.id + '"]').length > 0) {
+                        return;
+                    }
+
+                    var thumbHtml = '';
+                    if (att.type === 'image' && att.sizes && (att.sizes.thumbnail || att.sizes.full)) {
+                        var src = att.sizes.thumbnail ? att.sizes.thumbnail.url : att.sizes.full.url;
+                        thumbHtml = '<img src="' + src + '" style="width:48px; height:48px; object-fit:cover; border-radius:4px; border:1px solid #dcdcde; display:block;">';
+                    } else {
+                        thumbHtml = '<span class="dashicons dashicons-media-default" style="display:flex; align-items:center; justify-content:center; width:48px; height:48px; font-size:28px; background:#f0f0f1; border-radius:4px; color:#50575e; border:1px solid #dcdcde;"></span>';
+                    }
+
+                    var sizeText = att.filesizeHumanReadable || '';
+                    var titleText = att.title || att.filename;
+
+                    var itemHtml = '' +
+                        '<div class="belan-att-item" data-id="' + att.id + '" style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 14px; background:#fff; border:1px solid #c3c4c7; border-radius:6px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">' +
+                            '<input type="hidden" name="consultation_attachments[]" value="' + att.id + '">' +
+                            '<div style="display:flex; align-items:center; gap:12px; min-width:0; flex-grow:1;">' +
+                                '<div style="flex-shrink:0;">' + thumbHtml + '</div>' +
+                                '<div style="min-width:0; flex-grow:1;">' +
+                                    '<a href="' + att.url + '" target="_blank" style="font-weight:600; font-size:13px; color:#2271b1; text-decoration:none; display:inline-block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="' + titleText + '">' + titleText + '</a>' +
+                                    '<div style="font-size:12px; color:#646970; margin-top:2px;">' +
+                                        (sizeText ? '<span>' + sizeText + '</span> &bull; ' : '') +
+                                        '<span>' + (att.mime || att.subtype) + '</span> &bull; ' +
+                                        '<span>ID: ' + att.id + '</span>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">' +
+                                '<a href="' + att.url + '" target="_blank" download class="button button-secondary button-small">' +
+                                    '<span class="dashicons dashicons-download" style="vertical-align:text-bottom; font-size:15px; width:15px; height:15px; line-height:15px;"></span> Скачать ↗' +
+                                '</a>' +
+                                '<button type="button" class="button button-link-delete button-small belan-remove-att-btn" style="color:#d63638; text-decoration:none; padding:0 6px;">' +
+                                    '<span class="dashicons dashicons-trash" style="vertical-align:text-bottom; font-size:15px; width:15px; height:15px; line-height:15px;"></span> Открепить' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>';
+
+                    $('#belan-attachments-list').append(itemHtml);
+                });
+
+                if ($('#belan-attachments-list .belan-att-item').length > 0) {
+                    $('#belan-attachments-empty').hide();
+                }
+            });
+
+            file_frame.open();
+        });
+    });
+    </script>
+    <?php
+}
+
+/**
+ * Save Consultation Attachments Meta on Post Save
+ */
+add_action('save_post_consultation', function($post_id, $post) {
+    if (!isset($_POST['belan_consultation_attachments_nonce']) || !wp_verify_nonce($_POST['belan_consultation_attachments_nonce'], 'belan_save_consultation_attachments')) {
+        return;
+    }
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (!empty($_POST['consultation_attachments'])) {
+        $attachment_ids = array_values(array_unique(array_filter(array_map('intval', (array) $_POST['consultation_attachments']))));
+        update_post_meta($post_id, 'consultation_attachments', $attachment_ids);
+    } else {
+        delete_post_meta($post_id, 'consultation_attachments');
+    }
+}, 10, 2);
+
+/**
+ * Render Lawyer Answers Meta Box in Question Edit Screen
+ */
+function belan_render_consultation_answers_box($post) {
+    $parent_id = $post->ID;
+    $answers = get_posts([
+        'post_type'      => 'consultation_answer',
+        'post_parent'    => $parent_id,
+        'post_status'    => ['publish', 'pending', 'draft'],
+        'posts_per_page' => -1,
+        'orderby'        => 'date',
+        'order'          => 'ASC',
+    ]);
+
+    $meta_answers = get_posts([
+        'post_type'      => 'consultation_answer',
+        'post_status'    => ['publish', 'pending', 'draft'],
+        'meta_key'       => 'question_id',
+        'meta_value'     => $parent_id,
+        'posts_per_page' => -1,
+    ]);
+
+    $all_answers = [];
+    foreach (array_merge($answers, $meta_answers) as $ans) {
+        $all_answers[$ans->ID] = $ans;
+    }
+
+    $count = count($all_answers);
+    ?>
+    <div class="belan-answers-meta-wrapper" style="font-family: inherit;">
+        <p class="description" style="margin:0 0 12px; font-size:13px; color:#50575e;">
+            Всего ответов от адвокатов: <strong><?php echo esc_html($count); ?></strong>. Ответы публикуются на сайте после одобрения модератором.
+        </p>
+
+        <?php if (!empty($all_answers)) : ?>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <?php foreach ($all_answers as $ans) :
+                    $lawyer = belan_get_lawyer_profile($ans->post_author);
+                    $is_published = ($ans->post_status === 'publish');
+                    $approve_url = wp_nonce_url(admin_url('admin-ajax.php?action=belan_admin_approve_get&answer_id=' . $ans->ID), 'belan_approve_' . $ans->ID);
+                    $unpub_url   = wp_nonce_url(admin_url('admin-ajax.php?action=belan_admin_unpublish_get&answer_id=' . $ans->ID), 'belan_unpublish_' . $ans->ID);
+                    $edit_url    = get_edit_post_link($ans->ID);
+                    $site_url    = get_permalink($parent_id) . '#answer-' . $ans->ID;
+                    ?>
+                    <div style="padding:12px 16px; background:#fff; border:1px solid #c3c4c7; border-left:4px solid <?php echo $is_published ? '#00a32a' : '#dba617'; ?>; border-radius:4px; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <img src="<?php echo esc_url($lawyer['avatar']); ?>" alt="" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
+                                <div>
+                                    <strong style="font-size:13px; color:#1d2327;"><?php echo esc_html($lawyer['name']); ?></strong>
+                                    <?php if (!empty($lawyer['reg_number'])) : ?>
+                                        <span style="font-size:12px; color:#646970; margin-left:6px;">(<?php echo esc_html($lawyer['reg_number']); ?>)</span>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div>
+                                <?php if ($is_published) : ?>
+                                    <span style="background:#e8f5e9; color:#2e7d32; font-weight:600; padding:2px 8px; border-radius:3px; font-size:12px;">✓ Опубликован</span>
+                                <?php else : ?>
+                                    <span style="background:#fff3e0; color:#e65100; font-weight:600; padding:2px 8px; border-radius:3px; font-size:12px;">⏳ На модерации</span>
+                                <?php endif; ?>
+                                <span style="font-size:12px; color:#646970; margin-left:8px;"><?php echo esc_html(get_the_date('d.m.Y H:i', $ans->ID)); ?></span>
+                            </div>
+                        </div>
+
+                        <div style="font-size:13px; line-height:1.5; color:#2c3338; background:#f9f9f9; padding:10px 12px; border-radius:4px; margin-bottom:10px;">
+                            <?php echo nl2br(esc_html(wp_trim_words(wp_strip_all_tags($ans->post_content), 40, '...'))); ?>
+                        </div>
+
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <?php if (!$is_published) : ?>
+                                <a href="<?php echo esc_url($approve_url); ?>" class="button button-primary button-small">Одобрить ответ</a>
+                            <?php else : ?>
+                                <a href="<?php echo esc_url($unpub_url); ?>" class="button button-small">В черновик</a>
+                            <?php endif; ?>
+                            <a href="<?php echo esc_url($edit_url); ?>" class="button button-small">Редактировать</a>
+                            <a href="<?php echo esc_url($site_url); ?>" target="_blank" class="button button-secondary button-small">Открыть на сайте ↗</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else : ?>
+            <div style="padding:20px; background:#f6f7f7; border:1px dashed #c3c4c7; border-radius:6px; text-align:center; color:#646970;">
+                <span class="dashicons dashicons-format-chat" style="font-size:32px; width:32px; height:32px; color:#a7aaad; margin-bottom:6px; display:inline-block;"></span>
+                <p style="margin:0; font-size:13px;">Ответов экспертов на этот вопрос пока нет.</p>
+            </div>
+        <?php endif; ?>
+
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid #f0f0f1; display:flex; align-items:center; justify-content:space-between;">
+            <a href="<?php echo esc_url(admin_url('post-new.php?post_type=consultation_answer&parent_question=' . $parent_id)); ?>" class="button button-secondary">
+                <span class="dashicons dashicons-plus-alt2" style="vertical-align:text-bottom; font-size:16px; width:16px; height:16px; line-height:16px;"></span> Написать ответ от адвоката
+            </a>
+            <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation_answer')); ?>" class="button button-link" style="text-decoration:none; font-size:12px;">
+                Все ответы в системе &rarr;
+            </a>
+        </div>
+    </div>
+    <?php
+}
+
+/**
+ * Render Parent Question Meta Box in Consultation Answer Edit Screen
+ */
+function belan_render_answer_parent_question_box($post) {
+    $parent_id = $post->post_parent ?: (int) get_post_meta($post->ID, 'question_id', true);
+    if (!$parent_id && isset($_GET['parent_question'])) {
+        $parent_id = (int) $_GET['parent_question'];
+    }
+
+    $q = $parent_id ? get_post($parent_id) : null;
+    ?>
+    <div class="belan-answer-parent-q-wrapper" style="font-family: inherit;">
+        <?php if ($q) :
+            $author = get_post_meta($parent_id, 'consultation_author', true) ?: 'Пользователь';
+            $q_text = get_post_meta($parent_id, 'consultation_question', true) ?: $q->post_content;
+            ?>
+            <input type="hidden" name="belan_parent_question_id" value="<?php echo esc_attr($parent_id); ?>">
+            <div style="margin-bottom:8px;">
+                <strong style="font-size:14px; color:#1d2327;">
+                    <a href="<?php echo esc_url(get_edit_post_link($parent_id)); ?>" target="_blank" style="text-decoration:none; color:#2271b1;">
+                        <?php echo esc_html($q->post_title); ?> ↗
+                    </a>
+                </strong>
+                <div style="font-size:12px; color:#646970; margin-top:2px;">
+                    Автор: <strong><?php echo esc_html($author); ?></strong> &bull;
+                    Дата: <?php echo esc_html(get_the_date('d.m.Y H:i', $parent_id)); ?> &bull;
+                    <a href="<?php echo esc_url(get_permalink($parent_id)); ?>" target="_blank">Открыть на сайте ↗</a>
+                </div>
+            </div>
+            <div style="font-size:13px; line-height:1.5; color:#2c3338; background:#f9f9f9; padding:10px 12px; border:1px solid #dcdcde; border-radius:4px; max-height:160px; overflow-y:auto;">
+                <?php echo nl2br(esc_html($q_text)); ?>
+            </div>
+        <?php else : ?>
+            <p style="color:#646970; margin:0;">Этот ответ пока не привязан к конкретному вопросу. Укажите ID вопроса при создании.</p>
+        <?php endif; ?>
+    </div>
+    <?php
+}
+
+/**
+ * Save Parent Question ID on Consultation Answer Save
+ */
+add_action('save_post_consultation_answer', function($post_id, $post) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    if (!empty($_POST['belan_parent_question_id'])) {
+        $parent_id = (int) $_POST['belan_parent_question_id'];
+        update_post_meta($post_id, 'question_id', $parent_id);
+        if ($post->post_parent != $parent_id) {
+            remove_action('save_post_consultation_answer', __FUNCTION__);
+            wp_update_post([
+                'ID' => $post_id,
+                'post_parent' => $parent_id,
+            ]);
+        }
+    }
+}, 10, 2);
 
 /**
  * Anti-Spam Helper: Generate Math Captcha Challenge and Token
@@ -1215,7 +1643,7 @@ function belan_register_qa_dashboard_widget() {
     if (function_exists('wp_add_dashboard_widget')) {
         wp_add_dashboard_widget(
             'belan_qa_moderation_dashboard',
-            '⚖️ Консультации (Q&A): Модерация вопросов и ответов адвокатов',
+            'Консультации: Модерация вопросов и ответов',
             'belan_render_qa_dashboard_widget',
             null,
             null,
@@ -1387,7 +1815,7 @@ function belan_render_qa_dashboard_widget() {
     <!-- Section: Вопросы на модерации -->
     <div class="qa-dash-section">
         <div class="qa-dash-section__title">
-            <span>⏳ Вопросы доверителей, ожидающие проверки (<?php echo esc_html($pending_q); ?>)</span>
+            <span>Вопросы, ожидающие проверки (<?php echo esc_html($pending_q); ?>)</span>
             <?php if ($pending_q > 0) : ?>
                 <a href="<?php echo esc_url(admin_url('edit.php?post_status=pending&post_type=consultation')); ?>">Все вопросы &rarr;</a>
             <?php endif; ?>
@@ -1447,7 +1875,7 @@ function belan_render_qa_dashboard_widget() {
     <!-- Section: Ответы на модерации -->
     <div class="qa-dash-section">
         <div class="qa-dash-section__title">
-            <span>⏳ Ответы адвокатов, ожидающие проверки (<?php echo esc_html($pending_a); ?>)</span>
+            <span>Ответы адвокатов, ожидающие проверки (<?php echo esc_html($pending_a); ?>)</span>
             <?php if ($pending_a > 0) : ?>
                 <a href="<?php echo esc_url(admin_url('edit.php?post_status=pending&post_type=consultation_answer')); ?>">Все ответы &rarr;</a>
             <?php endif; ?>
@@ -1507,7 +1935,7 @@ function belan_render_qa_dashboard_widget() {
     <div class="qa-dash-footer">
         <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation')); ?>">Все вопросы</a>
         <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation_answer')); ?>">Все ответы адвокатов</a>
-        <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation&page=belan-experts')); ?>">⚖️ Эксперты и адвокаты</a>
+        <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation&page=belan-experts')); ?>">Эксперты и адвокаты</a>
         <a href="<?php echo esc_url(admin_url('edit.php?post_type=consultation&page=belan-experts&view=new')); ?>">+ Добавить эксперта</a>
         <a href="<?php echo esc_url(home_url('/consultation/')); ?>" target="_blank">Лента на сайте &nearr;</a>
     </div>

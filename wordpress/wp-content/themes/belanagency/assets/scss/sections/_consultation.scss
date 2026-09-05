@@ -920,7 +920,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: rem(14);
-    margin-bottom: rem(42);
+    margin-bottom: rem(24);
     padding-bottom: rem(20);
     border-bottom: rem(1) solid #D8D8D8;
 
@@ -1423,6 +1423,9 @@
   border-top: 1px solid #EAEAEA;
 
   &__title {
+    display: flex;
+    align-items: center;
+    gap: rem(6);
     font-size: rem(14);
     font-weight: 600;
     color: #555;

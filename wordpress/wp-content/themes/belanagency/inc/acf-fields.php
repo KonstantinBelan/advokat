@@ -604,7 +604,7 @@ add_action('acf/init', function() {
     // 6. Fields for Consultations (Q&A)
     acf_add_local_field_group([
         'key' => 'group_consultation_fields',
-        'title' => 'Параметры консультации (Вопрос-Ответ)',
+        'title' => 'Информация о вопросе',
         'fields' => [
             [
                 'key' => 'field_consult_author',
@@ -625,12 +625,6 @@ add_action('acf/init', function() {
                 'label' => 'Текст вопроса',
                 'name' => 'consultation_question',
                 'type' => 'textarea',
-            ],
-            [
-                'key' => 'field_consult_answer',
-                'label' => 'Ответ адвоката',
-                'name' => 'consultation_answer',
-                'type' => 'wysiwyg',
             ],
         ],
         'location' => [

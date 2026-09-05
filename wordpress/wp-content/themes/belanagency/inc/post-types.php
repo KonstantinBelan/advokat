@@ -165,8 +165,8 @@ function belan_register_post_types() {
         'hierarchical'       => false,
         'menu_position'      => 8,
         'menu_icon'          => 'dashicons-format-chat',
-        'supports'           => ['title', 'editor', 'thumbnail'],
-        'show_in_rest'       => true,
+        'supports'           => ['title'],
+        'show_in_rest'       => false,
     ]);
 
     // Таксономия для Консультаций

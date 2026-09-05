@@ -6377,7 +6377,7 @@ footer {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 0.875rem;
-  margin-bottom: 2.625rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 1.25rem;
   border-bottom: 0.0625rem solid #D8D8D8;
 }
@@ -6827,6 +6827,9 @@ footer {
   border-top: 1px solid #EAEAEA;
 }
 .qa-attachments__title {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
   font-size: 0.875rem;
   font-weight: 600;
   color: #555;

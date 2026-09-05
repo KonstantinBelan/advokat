@@ -128,15 +128,15 @@ $approved_count = belan_get_question_answers_count($question_id);
                         ?>
                     </div>
 
-                    <!-- Question Attachments (if any) -->
-                    <?php if (!empty($attachments) && is_array($attachments)) : ?>
+                    <!-- Question Attachments (Visible ONLY to lawyers and administrators) -->
+                    <?php if ($is_advokat && !empty($attachments) && is_array($attachments)) : ?>
                         <div class="qa-attachments">
-                            <h4 class="qa-attachments__title">
+                            <p class="qa-attachments__title">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px;">
                                     <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
                                 </svg>
                                 Прикрепленные документы (<?php echo count($attachments); ?>):
-                            </h4>
+                            </p>
                             <ul class="qa-attachments__list">
                                 <?php foreach ($attachments as $att_id) :
                                     $att_url = wp_get_attachment_url($att_id);
