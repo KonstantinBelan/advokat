@@ -126,6 +126,28 @@ add_filter('gettext', function ($translation, $text, $domain) {
 }, 10, 3);
 
 /**
+ * Check if the user is an expert (advokat role) and not an administrator
+ *
+ * @param WP_User|int|null $user
+ * @return bool
+ */
+function belan_is_advokat_user($user = null) {
+    if (!$user) {
+        $user = wp_get_current_user();
+    } elseif (is_numeric($user)) {
+        $user = get_userdata($user);
+    }
+    if (!$user || empty($user->ID)) {
+        return false;
+    }
+    // Administrator retains full permissions
+    if (user_can($user, 'manage_options')) {
+        return false;
+    }
+    return in_array('advokat', (array) $user->roles, true);
+}
+
+/**
  * Remove administrative and non-author menus for users without manage_options
  */
 add_action('admin_menu', function () {
@@ -139,6 +161,15 @@ add_action('admin_menu', function () {
         remove_menu_page('edit.php?post_type=consultation_answer');
         remove_menu_page('tools.php');
         remove_menu_page('edit-comments.php');
+
+        // Remove standard dashboard & profile pages for experts
+        if (belan_is_advokat_user()) {
+            remove_menu_page('index.php');
+            remove_menu_page('profile.php');
+            remove_menu_page('separator1');
+            remove_menu_page('separator2');
+            remove_menu_page('separator-last');
+        }
     }
 }, 999);
 
@@ -158,15 +189,24 @@ add_action('admin_init', function () {
 
 /**
  * Block direct URL access to restricted post types and tools for non-admins
+ * If the user is an expert (advokat), redirect them to their expert profile instead of showing an error.
  */
 add_action('load-tools.php', function () {
     if (!current_user_can('manage_options')) {
+        if (function_exists('belan_is_advokat_user') && belan_is_advokat_user()) {
+            wp_safe_redirect(admin_url('admin.php?page=belan-expert-profile'));
+            exit;
+        }
         wp_die(__('Извините, вам не разрешено просматривать эту страницу.'), 403);
     }
 });
 
 add_action('load-edit.php', function () {
     if (!current_user_can('manage_options')) {
+        if (function_exists('belan_is_advokat_user') && belan_is_advokat_user()) {
+            wp_safe_redirect(admin_url('admin.php?page=belan-expert-profile'));
+            exit;
+        }
         $screen = get_current_screen();
         if ($screen && in_array($screen->post_type, ['service', 'cases', 'review', 'consultation', 'consultation_answer'], true)) {
             wp_die(__('Извините, вам не разрешено просматривать эту страницу.'), 403);
@@ -176,6 +216,10 @@ add_action('load-edit.php', function () {
 
 add_action('load-post-new.php', function () {
     if (!current_user_can('manage_options')) {
+        if (function_exists('belan_is_advokat_user') && belan_is_advokat_user()) {
+            wp_safe_redirect(admin_url('admin.php?page=belan-expert-profile'));
+            exit;
+        }
         $screen = get_current_screen();
         if ($screen && in_array($screen->post_type, ['service', 'cases', 'review', 'consultation', 'consultation_answer'], true)) {
             wp_die(__('Извините, вам не разрешено просматривать эту страницу.'), 403);

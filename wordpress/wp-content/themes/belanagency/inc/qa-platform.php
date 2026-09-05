@@ -181,7 +181,7 @@ function belan_get_lawyer_profile($user_id) {
             'phone'          => '8 (993) 909-90-50',
             'whatsapp'       => 'https://wa.me/79939099050',
             'telegram'       => 'https://t.me/advokatezhov',
-            'avatar'         => belan_asset('img/about.webp'),
+            'avatar'         => 'https://secure.gravatar.com/avatar/dca0d4420b1286cd1d4f18418fd161b4?s=128&d=mm&r=g',
             'verified'       => true,
             'is_advokat'     => true,
             'answers_count'  => 0,
@@ -196,7 +196,11 @@ function belan_get_lawyer_profile($user_id) {
     // Default avatar
     $avatar = get_user_meta($user_id, 'advokat_avatar', true);
     if (empty($avatar)) {
-        $avatar = belan_asset('img/about.webp');
+        if ($user_id === 1) {
+            $avatar = belan_asset('img/about.webp');
+        } else {
+            $avatar = 'https://secure.gravatar.com/avatar/dca0d4420b1286cd1d4f18418fd161b4?s=128&d=mm&r=g';
+        }
     }
 
     // Count approved answers by this lawyer
